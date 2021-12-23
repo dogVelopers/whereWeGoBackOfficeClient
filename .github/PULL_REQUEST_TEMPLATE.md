@@ -1,7 +1,5 @@
 ### Description
 
-해당 PR에 대한 설명
+개발에 필요한 패키지 및 라이브러리 설치
 
 ### Part what want to be especially check
-
-코드 리뷰를 봐줬으면 하는 부분

@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+// 라우터 v6 변경 사항 적용.
+import SearchCountry from './components/SearchCountry';
+import AddCountry from './components/AddCountry/AddCountry';
+import CountryBox from './components/CountryBox';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
-export default App;
+function Main() {
+  // main 페이지 레이아웃
+  return (
+    <>
+      <div className="main-container">
+        <SearchCountry />
+        <AddCountry />
+        <CountryBox />
+      </div>
+    </>
+  );
+}
