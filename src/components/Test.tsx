@@ -7,7 +7,7 @@ interface ITestProps {
 }
 
 function Test({ num, name }: ITestProps) {
-  return <div></div>;
+  return <div>hi </div>;
 }
 
 export default Test;

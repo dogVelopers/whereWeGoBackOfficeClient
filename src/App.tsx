@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
-import Test from './components/Test';
+import React from 'react';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+// 라우터 v6 변경 사항 적용.
+import SearchCountry from './components/SearchCountry';
+import AddCountry from './components/AddCountry/AddCountry';
+import CountryBox from './components/CountryBox';
 import './App.css';
 
-function App() {
-  const [num, setNum] = useState<number>(1);
-  const name: string = 'asdf';
-
+export default function App() {
   return (
-    <div className="App">
-      <Test num={1} name={'123'} setNum={setNum}></Test>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
-export default App;
+function Main() {
+  // main 페이지 레이아웃
+  return (
+    <>
+      <div className="main-container">
+        <SearchCountry />
+        <AddCountry />
+        <CountryBox />
+      </div>
+    </>
+  );
+}
