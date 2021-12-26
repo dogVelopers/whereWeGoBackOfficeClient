@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // 검색 컴포넌트
 export default function SearchCountry() {

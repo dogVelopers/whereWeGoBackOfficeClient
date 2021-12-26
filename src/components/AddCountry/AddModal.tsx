@@ -1,28 +1,33 @@
-import React, { ReactElement } from 'react';
-import CloseIcon from '@material-ui/icons/Close';
-// import './AddModal.css';
+import { ReactNode } from 'react';
+import styled from '@emotion/styled';
+import { ModalPortalWrap } from 'components/AddCountry/ModalPortal';
 
-interface props {
-  // modal 창 open || close 상태 확인을 위한 타입 선언
-  open: boolean;
-  close: () => void; // 함수 타입 정의
+const BackDrop = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+interface AddModalProps {
+  show: boolean;
+  children: ReactNode;
+  onClose: () => void;
 }
-const AddModal = (props: props): ReactElement => {
-  const { open, close } = props;
 
+export const AddModal = ({ show, children, onClose }: AddModalProps) => {
+  if (!show) {
+    return null;
+  }
   return (
-    <>
-      <div className={open ? 'bg' : ''} />
-      <div className={open ? 'modal active' : 'modal'}>
-        {open ? (
-          <div className="addContainer">
-            <CloseIcon className="close" onClick={close} />
-            <p>수정 내용</p>
-          </div>
-        ) : null}
-      </div>
-    </>
+    <ModalPortalWrap>
+      <BackDrop onClick={onClose}>{children}</BackDrop>
+    </ModalPortalWrap>
   );
 };
-
-export default AddModal;

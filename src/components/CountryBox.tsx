@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // 국가 list get
 export default function CountryBox() {
