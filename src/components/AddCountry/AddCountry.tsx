@@ -3,20 +3,20 @@ import AddIcon from '@material-ui/icons/Add';
 import AddModal from './AddModal';
 
 const AddCountry = (): ReactElement => {
-  const [showReq, setShowReq] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  function openReq() {
-    setShowReq(!showReq);
-  }
+  const openModal = () => {
+    setShowModal(!showModal);
+  };
 
-  function closeReq() {
-    setShowReq(!showReq);
-  }
+  const closeModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <div>
-      <AddIcon className="request_btn" onClick={openReq} />
-      <AddModal open={showReq} close={closeReq} />
+      <AddIcon className="addModal-btn" onClick={openModal} />
+      <AddModal open={showModal} close={closeModal} />
     </div>
   );
 };
