@@ -16,7 +16,7 @@ export const CountryBox = () => {
 
 const CountryBoxContainer = styled.div``;
 const CountryBoxList = styled.div`
-  border: 1px solid pink;
+  border: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 10px;
   margin: 2vw;
   min-width: 50vw;
