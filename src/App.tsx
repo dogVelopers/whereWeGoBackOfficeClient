@@ -1,20 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 // 라우터 v6 변경 사항 적용.
 import styled from '@emotion/styled';
 import SearchCountry from 'components/SearchCountry';
 import { AddCountry } from 'components/AddCountry/AddCountry';
-import CountryBox from 'components/CountryBox';
-import './App.css';
-
-const AppWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  color: #61dafb;
-`;
+import { CountryBox } from 'components/CountryBox';
 
 export default function App() {
   return (
@@ -28,18 +18,49 @@ export default function App() {
   );
 }
 
-function Main() {
-  // main 페이지 레이아웃
-
+const Main = () => {
   return (
     <>
-      <div className="main-container">
-        <SearchCountry />
-        <AppWrapper>
+      <MainContainer>
+        {/* search */}
+        <SearchWrapper>
+          <SearchCountry />
+        </SearchWrapper>
+
+        {/* add modal */}
+        <ModalWrapper>
           <AddCountry />
-        </AppWrapper>
-        <CountryBox />
-      </div>
+        </ModalWrapper>
+
+        {/* country list */}
+        <CountryListWrapper>
+          <CountryBox />
+        </CountryListWrapper>
+      </MainContainer>
     </>
   );
-}
+};
+
+// Main page
+const MainContainer = styled.div``;
+
+// search component
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+// Modal component
+const ModalWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+// country list component
+const CountryListWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

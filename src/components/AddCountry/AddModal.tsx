@@ -1,7 +1,34 @@
-import { ReactNode } from 'react';
+import { ReactNode, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { ModalPortalWrap } from 'components/AddCountry/ModalPortal';
 
+interface AddModalProps {
+  show: boolean;
+  children: ReactNode;
+  onClose: () => void;
+}
+
+export const AddModal = ({ show, children, onClose }: AddModalProps) => {
+  const onClickBackDrop = (e: MouseEvent<HTMLDivElement>) => {
+    const { target } = e;
+    if ((target as HTMLElement).id !== 'modal-backdrop') return;
+
+    onClose();
+  };
+
+  if (!show) {
+    return null;
+  }
+  return (
+    <ModalPortalWrap>
+      <BackDrop id="modal-backdrop" onClick={onClickBackDrop}>
+        {children}
+      </BackDrop>
+    </ModalPortalWrap>
+  );
+};
+
+// Modal 창 위치 및 style
 const BackDrop = styled.div`
   width: 100vw;
   height: 100vh;
@@ -14,20 +41,3 @@ const BackDrop = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-interface AddModalProps {
-  show: boolean;
-  children: ReactNode;
-  onClose: () => void;
-}
-
-export const AddModal = ({ show, children, onClose }: AddModalProps) => {
-  if (!show) {
-    return null;
-  }
-  return (
-    <ModalPortalWrap>
-      <BackDrop onClick={onClose}>{children}</BackDrop>
-    </ModalPortalWrap>
-  );
-};
