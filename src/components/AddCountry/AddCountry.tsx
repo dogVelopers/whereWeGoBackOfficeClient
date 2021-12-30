@@ -19,7 +19,39 @@ export const AddCountry = () => {
       >
         <AddModalContent
           title="국가 등록"
-          content="content에는 국가 등록 정보가 들어갈 예정입니다."
+          content={
+            <form>
+              <ContentSub>
+                <label>국가name1: </label>
+                <select name="continent_name">
+                  <option value="" selected>
+                    ---선택---
+                  </option>
+                  <option value="유럽">유럽</option>
+                  <option value="아시아">아시아</option>
+                  <option value="아프리카">아프리카</option>
+                  <option value="아메리카">아메리카</option>
+                  <option value="오세아니아">오세아니아</option>
+                </select>
+              </ContentSub>
+
+              <ContentSub>
+                <label>국가name2: </label>
+                <input type="text"></input>
+              </ContentSub>
+
+              <ContentSub>
+                <label>국가 소개: </label>
+                <textarea cols={50} rows={10}></textarea>
+              </ContentSub>
+
+              <ContentSub>
+                <label>격리 정책: </label>
+                <textarea cols={50} rows={10}></textarea>
+              </ContentSub>
+            </form>
+          }
+          onClose={() => setOpenModal((openModal) => !openModal)}
         />
       </AddModal>
     </>
@@ -60,3 +92,5 @@ const Button = styled.button`
     transform-origin: 0% 50%;
   }
 `;
+
+const ContentSub = styled.div``;

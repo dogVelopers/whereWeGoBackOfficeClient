@@ -4,7 +4,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import styled from '@emotion/styled';
 import SearchCountry from 'components/SearchCountry';
 import { AddCountry } from 'components/AddCountry/AddCountry';
-import { CountryBox } from 'components/CountryBox';
+import { CountryList } from 'components/CountryList';
 
 export default function App() {
   return (
@@ -34,7 +34,7 @@ const Main = () => {
 
         {/* country list */}
         <CountryListWrapper>
-          <CountryBox />
+          <CountryList />
         </CountryListWrapper>
       </MainContainer>
     </>

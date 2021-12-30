@@ -1,36 +1,29 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, MouseEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import CloseIcon from '@material-ui/icons/Close';
+import { AddModal } from 'components/AddCountry/AddModal';
 
 interface IAddModalContentProps {
   title: ReactNode;
   content: ReactNode;
+  onClose: () => void;
 }
 
 // Modal 창 open 시 title, content
-export const AddModalContent = ({ title, content }: IAddModalContentProps) => {
+export const AddModalContent = ({
+  title,
+  content,
+  onClose,
+}: IAddModalContentProps) => {
   // closeIcon 클릭 시 modal close
-  const [modalOpen, setModalOpen] = useState(false);
-  const modalClose = () => {
-    if (
-      window.confirm(
-        '등록을 취소하시겠습니까?' +
-          '\n' +
-          '등록을 계속 진행하시려면 취소 버튼을 눌러주시기 바랍니다.'
-      )
-    ) {
-      // $jquery
-      // modal 창 닫기 구현.
-    } else {
-      return;
-    }
-  };
+  // const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Wrapper>
       <Header>{title}</Header>
 
       <CloseButton>
-        <CloseIcon onClick={modalClose} />
+        <CloseIcon onClick={onClose}></CloseIcon>
       </CloseButton>
 
       <Content>{content}</Content>
@@ -70,6 +63,8 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+const ContentSub = styled.div``;
 
 // addCountry submit button
 const SubmitButton = styled.button`
