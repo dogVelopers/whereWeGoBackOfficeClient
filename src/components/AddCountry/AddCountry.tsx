@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import AddIcon from '@material-ui/icons/Add';
 import styled from '@emotion/styled';
-import { AddModal } from 'components/AddCountry/AddModal';
-import { AddModalContent } from 'components/AddCountry/AddModalContent';
+import { AddModal } from 'components/Modal/Modal';
+import { AddModalContent } from 'components/Modal/ModalContent';
 
 export const AddCountry = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -10,7 +9,7 @@ export const AddCountry = () => {
   return (
     <>
       <Button onClick={() => setOpenModal((openModal) => !openModal)}>
-        Add Country
+        ADD COUNTRY
       </Button>
 
       <AddModal
@@ -21,6 +20,11 @@ export const AddCountry = () => {
           title="국가 등록"
           content={
             <form>
+              <ContentSub>
+                <label>이미지 업로드: </label>
+                <input type="file"></input>
+              </ContentSub>
+
               <ContentSub>
                 <label>국가name1: </label>
                 <select name="continent_name">
@@ -59,37 +63,34 @@ export const AddCountry = () => {
 };
 
 const Button = styled.button`
-  border: 0;
-  border-radius: 10px;
+  border: 3px solid #c7c7c7;
+  border-radius: 24px;
   padding: 5px;
   min-width: 50vw;
   min-height: 8vw;
-  background-color: pink;
-  color: white;
+  background-color: white;
+  color: darkgray;
   font-size: 25pt;
-  letter-spacing: 5px;
+  font-weight: 500;
+  text-shadow: 2px 2px 2px #e2e0e0;
+  letter-spacing: 3px;
+  transition: 0.3s;
   -webkit-appearance: none;
   cursor: pointer;
 
   &:hover {
-    background-color: white;
-    color: pink;
-    font-size: 28pt;
-    font-weight: 600;
-    transition: 250ms;
+    background-color: #e4e3e3;
+    color: white;
+    letter-spacing: 5px;
+    transition: 0.3s;
+    text-shadow: 3px 3px 3px #aca9a9;
+    box-shadow: 0px 0px 5px #bebaba inset, 0px 0px 3px #c8c8c8;
   }
-  &:hover:after {
-    transform: scaleX(1);
-  }
-  &:after {
-    display: block;
-    content: '';
-    margin-top: 2.5vw;
-    margin-bottom: -2.5vw;
-    border-bottom: solid 3px pink;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
-    transform-origin: 0% 50%;
+  &:active {
+    margin-left: 5px;
+    margin-top: 5px;
+    transition-duration: 0.3s;
+    box-shadow: 0px 0px 5px #bebaba inset, 0px 0px 3px #d6d5d5;
   }
 `;
 

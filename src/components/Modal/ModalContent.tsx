@@ -1,7 +1,6 @@
-import { ReactNode, MouseEvent, useState } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import CloseIcon from '@material-ui/icons/Close';
-import { AddModal } from 'components/AddCountry/AddModal';
 
 interface IAddModalContentProps {
   title: ReactNode;

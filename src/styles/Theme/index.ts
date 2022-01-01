@@ -5,6 +5,10 @@ const theme: DefaultTheme = {
   colors: {
     black: '#111111',
   },
+
+  fontStyles: {
+    style: 'Noto Sans KR, sans-serif',
+  },
 };
 
 export default theme;

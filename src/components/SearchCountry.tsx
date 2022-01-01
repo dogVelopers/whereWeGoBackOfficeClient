@@ -5,7 +5,7 @@ import React from 'react';
 export default function SearchCountry() {
   return (
     <div>
-      <h1>SearchCountry</h1>
+      <h1></h1>
       {/*
       cotinent select 태그
       검색 창
