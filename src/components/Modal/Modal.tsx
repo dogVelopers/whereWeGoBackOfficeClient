@@ -2,13 +2,13 @@ import { ReactNode, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { ModalPortalWrap } from 'components/Modal/ModalPortal';
 
-interface IAddModalProps {
+interface IModalProps {
   show: boolean;
   children: ReactNode;
   onClose: () => void;
 }
 
-export const AddModal = ({ show, children, onClose }: IAddModalProps) => {
+export const Modal = ({ show, children, onClose }: IModalProps) => {
   const onClickBackDrop = (e: MouseEvent<HTMLDivElement>) => {
     const { target } = e;
     if ((target as HTMLElement).id !== 'modal-backdrop') return;

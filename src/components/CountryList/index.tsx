@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
 import useGetNations from 'hooks/api/useGetNations';
 import { EditCountry } from 'components/CountryList/EditCountry';
 
-export const CountryList = () => {
-  const [expanded, setExpanded] = useState(false);
+export const CountryList: React.FC = () => {
   const { data } = useGetNations();
-  // INation에 저장된 모든 data 출력.
-
   console.log(data);
+
+  const onSubmit = (form: {
+    image_url: string;
+    nation_name: string;
+    continent_name: string;
+    introduce: string;
+    quarantine_policy: string;
+  }) => {
+    console.log(form);
+  };
 
   return (
     // nation 정보를 담는 coutry 박스 컴포넌트 생성.
@@ -34,30 +39,30 @@ export const CountryList = () => {
                 </p>
               </TitleContainerStyle>
 
-              {/* edit, delete 아이콘 클릭시 전체가 drop 되는 문제. */}
               <ButtonContainerStyle>
-                <ButtonIconStyle>
-                  <EditIcon />
-                </ButtonIconStyle>
-
+                <EditCountry
+                  onSubmit={onSubmit}
+                  id={list?.id}
+                  // imageUrl={list?.image_url}
+                  nationName={list?.nation_name}
+                  continentName={list?.continent_name}
+                  introduceInfo={list?.introduce}
+                  quarantinePolicy={list?.quarantine_policy}
+                />
                 <ButtonIconStyle>
                   <DeleteIcon />
                 </ButtonIconStyle>
               </ButtonContainerStyle>
             </ImageContainer>
-
-            {/* 아이콘 클릭시 수정 컴포넌트 drop. */}
-            <div>{expanded && '하이'}</div>
           </CountryListBox>
         );
       })}
+      {/* <EditCountry onSubmit={onSubmit} /> */}
     </CountryBoxContainer>
   );
 };
 
-const CountryBoxContainer = styled.div`
-  font-family: ${({ theme }) => theme.fontStyles.style};
-`;
+const CountryBoxContainer = styled.div``;
 const CountryListBox = styled.div`
   margin: 3vw;
   -webkit-appearance: none;

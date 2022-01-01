@@ -1,10 +1,83 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import { AddModal } from 'components/Modal/Modal';
-import { AddModalContent } from 'components/Modal/ModalContent';
+import { Modal } from 'components/Modal/Modal';
+import { ModalContent } from 'components/Modal/ModalContent';
 
-export const AddCountry = () => {
+interface IAddCountryProps {
+  onSubmit: (form: {
+    name: string;
+    image_url: string;
+    nation_name: string;
+    continent_name: string;
+    introduce: string;
+    quarantine_policy: string;
+  }) => void;
+}
+
+export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const [form, setForm] = useState({
+    name: '',
+    image_url: '',
+    nation_name: '',
+    continent_name: '',
+    introduce: '소개글을 입력해주세요.',
+    quarantine_policy: '국가 격리 정책을 입력해주세요.',
+  });
+
+  const {
+    image_url,
+    nation_name,
+    continent_name,
+    introduce,
+    quarantine_policy,
+  } = form;
+
+  // text input type 지정
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+      [image_url]: value,
+      [nation_name]: value,
+    });
+  };
+
+  // select box type 지정
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+      [continent_name]: value,
+    });
+  };
+
+  // textArea type 지정
+  const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+      [introduce]: value,
+      [quarantine_policy]: value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(form);
+    setForm({
+      name: '',
+      image_url: '',
+      nation_name: '',
+      continent_name: '',
+      introduce: '',
+      quarantine_policy: '',
+    });
+  };
 
   return (
     <>
@@ -12,22 +85,31 @@ export const AddCountry = () => {
         ADD COUNTRY
       </Button>
 
-      <AddModal
+      <Modal
         show={openModal}
         onClose={() => setOpenModal((openModal) => !openModal)}
       >
-        <AddModalContent
-          title="국가 등록"
+        <ModalContent
+          title=""
           content={
-            <form>
-              <ContentSub>
-                <label>이미지 업로드: </label>
-                <input type="file"></input>
-              </ContentSub>
+            <form onSubmit={handleSubmit}>
+              <InputLabel>이미지 업로드</InputLabel>
+              <InputContainerStyle>
+                <AddInput
+                  type="file"
+                  name="image_url"
+                  value={image_url}
+                  onChange={onChange}
+                />
+              </InputContainerStyle>
 
-              <ContentSub>
-                <label>국가name1: </label>
-                <select name="continent_name">
+              <InputLabel>국가명</InputLabel>
+              <InputContainerStyle>
+                <select
+                  name="continent_name"
+                  value={continent_name}
+                  onChange={onSelectChange}
+                >
                   <option value="" selected>
                     ---선택---
                   </option>
@@ -37,61 +119,106 @@ export const AddCountry = () => {
                   <option value="아메리카">아메리카</option>
                   <option value="오세아니아">오세아니아</option>
                 </select>
-              </ContentSub>
+                <AddInput
+                  type="text"
+                  name="nation_name"
+                  value={nation_name}
+                  onChange={onChange}
+                />{' '}
+              </InputContainerStyle>
 
-              <ContentSub>
-                <label>국가name2: </label>
-                <input type="text"></input>
-              </ContentSub>
+              <InputLabel>국가 소개</InputLabel>
+              <InputContainerStyle>
+                <AddTextArea
+                  name="introduce"
+                  value={introduce}
+                  onChange={onTextAreaChange}
+                  cols={40}
+                  rows={8}
+                />
+              </InputContainerStyle>
 
-              <ContentSub>
-                <label>국가 소개: </label>
-                <textarea cols={50} rows={10}></textarea>
-              </ContentSub>
+              <InputLabel>격리 정책</InputLabel>
+              <InputContainerStyle>
+                <AddTextArea
+                  name="quarantine_policy"
+                  value={quarantine_policy}
+                  onChange={onTextAreaChange}
+                  cols={40}
+                  rows={8}
+                />
+              </InputContainerStyle>
 
-              <ContentSub>
-                <label>격리 정책: </label>
-                <textarea cols={50} rows={10}></textarea>
-              </ContentSub>
+              <AddButton>등록</AddButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
         />
-      </AddModal>
+      </Modal>
     </>
   );
 };
 
 const Button = styled.button`
-  border: 3px solid #c7c7c7;
+  border: 0;
   border-radius: 24px;
-  padding: 5px;
   min-width: 50vw;
   min-height: 8vw;
-  background-color: white;
-  color: darkgray;
+  background-color: #f7f5f5;
+  color: #746f6f;
   font-size: 25pt;
-  font-weight: 500;
+  font-weight: 600;
   text-shadow: 2px 2px 2px #e2e0e0;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
   transition: 0.3s;
   -webkit-appearance: none;
   cursor: pointer;
 
   &:hover {
-    background-color: #e4e3e3;
-    color: white;
-    letter-spacing: 5px;
+    background-color: #f7f5f5;
+    letter-spacing: 3px;
     transition: 0.3s;
-    text-shadow: 3px 3px 3px #aca9a9;
-    box-shadow: 0px 0px 5px #bebaba inset, 0px 0px 3px #c8c8c8;
+    text-shadow: 3px 3px 3px #aca9a9 inset;
+    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
   }
   &:active {
     margin-left: 5px;
     margin-top: 5px;
     transition-duration: 0.3s;
-    box-shadow: 0px 0px 5px #bebaba inset, 0px 0px 3px #d6d5d5;
+    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
   }
 `;
 
-const ContentSub = styled.div``;
+const InputLabel = styled.label`
+  margin-left: 4vw;
+`;
+const InputContainerStyle = styled.div`
+  margin-left: 4vw;
+  margin-bottom: 1vw;
+`;
+
+const AddInput = styled.input`
+  margin: 5px;
+`;
+
+const AddTextArea = styled.textarea`
+  width: 80%;
+  margin-top: 5px;
+  overflow: scroll;
+`;
+
+const AddButton = styled.div`
+  bottom: 0px;
+  margin-left: 4vw;
+  width: 70%;
+  height: 30px;
+  line-height: 30px;
+  background-color: black;
+  border: 0;
+  border-radius: 8px;
+  text-align: center;
+  letter-spacing: 5px;
+  font-size: 12pt;
+  color: white;
+  cursor: pointer;
+`;

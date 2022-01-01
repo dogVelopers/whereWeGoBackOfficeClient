@@ -18,7 +18,17 @@ export default function App() {
   );
 }
 
-const Main = () => {
+const Main: React.FC = () => {
+  const onSubmit = (form: {
+    image_url: string;
+    nation_name: string;
+    continent_name: string;
+    introduce: string;
+    quarantine_policy: string;
+  }) => {
+    console.log(form);
+  };
+
   return (
     <>
       <MainContainer>
@@ -29,7 +39,7 @@ const Main = () => {
 
         {/* add modal */}
         <ModalWrapper>
-          <AddCountry />
+          <AddCountry onSubmit={onSubmit} />
         </ModalWrapper>
 
         {/* country list */}
