@@ -16,7 +16,7 @@ interface ICountryFormProps {
 
   // 수정하고자 하는 id 값과 그에 해당하는 data props로 가져옴.
   id: number;
-  // imageUrl: string;
+  imageUrl: string;
   nationName: string;
   continentName: string;
   introduceInfo: string;
@@ -26,6 +26,7 @@ interface ICountryFormProps {
 export const EditCountry = ({
   onSubmit,
   id,
+  imageUrl,
   nationName,
   continentName,
   introduceInfo,
@@ -127,9 +128,7 @@ export const EditCountry = ({
                   value={continent_name}
                   onChange={onSelectChange}
                 >
-                  <option value="" selected>
-                    ---선택---
-                  </option>
+                  <option defaultValue="">---선택---</option>
                   <option value="유럽">유럽</option>
                   <option value="아시아">아시아</option>
                   <option value="아프리카">아프리카</option>
@@ -150,6 +149,7 @@ export const EditCountry = ({
                   name="introduce"
                   value={introduce}
                   onChange={onTextAreaChange}
+                  placeholder="소개글을 입력하는 란입니다."
                   cols={40}
                   rows={8}
                 />
@@ -161,12 +161,13 @@ export const EditCountry = ({
                   name="quarantine_policy"
                   value={quarantine_policy}
                   onChange={onTextAreaChange}
+                  placeholder="격리 정책을 입력하는 란입니다."
                   cols={40}
                   rows={8}
                 />
               </InputContainerStyle>
 
-              <EditButton>수정</EditButton>
+              <EditButton type="submit">수정</EditButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
@@ -198,18 +199,4 @@ const EditTextArea = styled.textarea`
   overflow: scroll;
 `;
 
-const EditButton = styled.div`
-  bottom: 0px;
-  margin-left: 4vw;
-  width: 70%;
-  height: 30px;
-  line-height: 30px;
-  background-color: black;
-  border: 0;
-  border-radius: 8px;
-  text-align: center;
-  letter-spacing: 5px;
-  font-size: 12pt;
-  color: white;
-  cursor: pointer;
-`;
+const EditButton = styled.button``;

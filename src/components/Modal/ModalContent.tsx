@@ -33,7 +33,7 @@ export const ModalContent = ({
 // 전체 Modal 창
 const Wrapper = styled.div`
   min-width: 400px;
-  min-height: 400px;
+  min-height: 300px;
   border-radius: 10px;
   padding: 20px;
   margin: 10px;

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react';
 import styled from 'styled-components';
 import useGetNations from 'hooks/api/useGetNations';
 import { EditCountry } from 'components/CountryList/EditCountry';
+import { DeleteCountry } from 'components/CountryList/DeleteCountry';
 
-export const CountryList: React.FC = () => {
+export const CountryList = () => {
   const { data } = useGetNations();
   console.log(data);
 
@@ -18,46 +18,52 @@ export const CountryList: React.FC = () => {
     console.log(form);
   };
 
+  if (!data) return <div>loading ... </div>;
   return (
     // nation 정보를 담는 coutry 박스 컴포넌트 생성.
     // map으로 돌려서 list 출력.
     <CountryBoxContainer>
-      {data?.map((list) => {
+      {data.map((country) => {
         return (
-          // map으로 data list 출력
-          <CountryListBox key={list?.id}>
+          // map으로 data country 출력
+          <CountryListBox key={country.id}>
             <ImageContainer>
-              <ImageStyle src={list?.image_url} alt={list?.nation_name} />
+              <ImageStyle src={country.image_url} alt={country.nation_name} />
 
               <TitleContainerStyle>
-                <ContinentNameStyle>{list?.continent_name}</ContinentNameStyle>
-                <NationNameStyle>{list?.nation_name}</NationNameStyle>
+                <ContinentNameStyle>
+                  {country.continent_name}
+                </ContinentNameStyle>
+                <NationNameStyle>{country.nation_name}</NationNameStyle>
 
                 <p>
-                  <CountryInfo>"{list?.introduce}"</CountryInfo>
-                  <CountryPolicy>{list?.quarantine_policy}</CountryPolicy>
+                  <CountryInfo>"{country.introduce}"</CountryInfo>
+                  <CountryPolicy>{country.quarantine_policy}</CountryPolicy>
                 </p>
               </TitleContainerStyle>
 
               <ButtonContainerStyle>
                 <EditCountry
                   onSubmit={onSubmit}
-                  id={list?.id}
-                  // imageUrl={list?.image_url}
-                  nationName={list?.nation_name}
-                  continentName={list?.continent_name}
-                  introduceInfo={list?.introduce}
-                  quarantinePolicy={list?.quarantine_policy}
+                  id={country.id}
+                  imageUrl={country.image_url}
+                  nationName={country.nation_name}
+                  continentName={country.continent_name}
+                  introduceInfo={country.introduce}
+                  quarantinePolicy={country.quarantine_policy}
                 />
                 <ButtonIconStyle>
-                  <DeleteIcon />
+                  <DeleteCountry
+                    id={country.id}
+                    nationName={country.nation_name}
+                    continentName={country.continent_name}
+                  />
                 </ButtonIconStyle>
               </ButtonContainerStyle>
             </ImageContainer>
           </CountryListBox>
         );
       })}
-      {/* <EditCountry onSubmit={onSubmit} /> */}
     </CountryBoxContainer>
   );
 };

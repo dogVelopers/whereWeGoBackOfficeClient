@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 // 라우터 v6 변경 사항 적용.
 import styled from '@emotion/styled';
@@ -18,7 +18,7 @@ export default function App() {
   );
 }
 
-const Main: React.FC = () => {
+const Main = () => {
   const onSubmit = (form: {
     image_url: string;
     nation_name: string;

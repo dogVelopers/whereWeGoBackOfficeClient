@@ -22,8 +22,8 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
     image_url: '',
     nation_name: '',
     continent_name: '',
-    introduce: '소개글을 입력해주세요.',
-    quarantine_policy: '국가 격리 정책을 입력해주세요.',
+    introduce: '',
+    quarantine_policy: '',
   });
 
   const {
@@ -97,6 +97,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
               <InputContainerStyle>
                 <AddInput
                   type="file"
+                  accept="image/jpg,impge/png,image/jpeg,image/gif"
                   name="image_url"
                   value={image_url}
                   onChange={onChange}
@@ -110,9 +111,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                   value={continent_name}
                   onChange={onSelectChange}
                 >
-                  <option value="" selected>
-                    ---선택---
-                  </option>
+                  <option defaultValue="">---선택---</option>
                   <option value="유럽">유럽</option>
                   <option value="아시아">아시아</option>
                   <option value="아프리카">아프리카</option>
@@ -133,6 +132,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                   name="introduce"
                   value={introduce}
                   onChange={onTextAreaChange}
+                  placeholder="소개글을 입력하는 란입니다."
                   cols={40}
                   rows={8}
                 />
@@ -144,12 +144,13 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                   name="quarantine_policy"
                   value={quarantine_policy}
                   onChange={onTextAreaChange}
+                  placeholder="격리 정책을 입력하는 란입니다."
                   cols={40}
                   rows={8}
                 />
               </InputContainerStyle>
 
-              <AddButton>등록</AddButton>
+              <AddButton type="submit">등록</AddButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
@@ -159,7 +160,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
   );
 };
 
-const Button = styled.button`
+const Button = styled.div`
   border: 0;
   border-radius: 24px;
   min-width: 50vw;
@@ -167,8 +168,9 @@ const Button = styled.button`
   background-color: #f7f5f5;
   color: #746f6f;
   font-size: 25pt;
-  font-weight: 600;
   text-shadow: 2px 2px 2px #e2e0e0;
+  text-align: center;
+  line-height: 8vw;
   letter-spacing: 5px;
   transition: 0.3s;
   -webkit-appearance: none;
@@ -207,18 +209,4 @@ const AddTextArea = styled.textarea`
   overflow: scroll;
 `;
 
-const AddButton = styled.div`
-  bottom: 0px;
-  margin-left: 4vw;
-  width: 70%;
-  height: 30px;
-  line-height: 30px;
-  background-color: black;
-  border: 0;
-  border-radius: 8px;
-  text-align: center;
-  letter-spacing: 5px;
-  font-size: 12pt;
-  color: white;
-  cursor: pointer;
-`;
+const AddButton = styled.button``;

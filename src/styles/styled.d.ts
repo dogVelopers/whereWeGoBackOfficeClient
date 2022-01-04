@@ -5,9 +5,5 @@ declare module 'styled-components' {
     colors: {
       black: string;
     };
-
-    fontStyles: {
-      style: string;
-    };
   }
 }
