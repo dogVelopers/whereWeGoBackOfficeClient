@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 // 라우터 v6 변경 사항 적용.
 import styled from '@emotion/styled';
 import SearchCountry from 'components/SearchCountry';
 import { AddCountry } from 'components/AddCountry/AddCountry';
-import { CountryBox } from 'components/CountryBox';
+import { CountryList } from 'components/CountryList';
 
 export default function App() {
   return (
@@ -19,6 +19,16 @@ export default function App() {
 }
 
 const Main = () => {
+  const onSubmit = (form: {
+    image_url: string;
+    nation_name: string;
+    continent_name: string;
+    introduce: string;
+    quarantine_policy: string;
+  }) => {
+    console.log(form);
+  };
+
   return (
     <>
       <MainContainer>
@@ -29,12 +39,12 @@ const Main = () => {
 
         {/* add modal */}
         <ModalWrapper>
-          <AddCountry />
+          <AddCountry onSubmit={onSubmit} />
         </ModalWrapper>
 
         {/* country list */}
         <CountryListWrapper>
-          <CountryBox />
+          <CountryList />
         </CountryListWrapper>
       </MainContainer>
     </>

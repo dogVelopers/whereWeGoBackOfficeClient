@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useState } from 'react';
+import EditIcon from '@material-ui/icons/Edit';
+import styled from 'styled-components';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
 
-interface IAddCountryProps {
+interface ICountryFormProps {
   onSubmit: (form: {
     name: string;
     image_url: string;
@@ -12,18 +13,35 @@ interface IAddCountryProps {
     introduce: string;
     quarantine_policy: string;
   }) => void;
+
+  // 수정하고자 하는 id 값과 그에 해당하는 data props로 가져옴.
+  id: number;
+  imageUrl: string;
+  nationName: string;
+  continentName: string;
+  introduceInfo: string;
+  quarantinePolicy: string;
 }
 
-export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
+export const EditCountry = ({
+  onSubmit,
+  id,
+  imageUrl,
+  nationName,
+  continentName,
+  introduceInfo,
+  quarantinePolicy,
+}: ICountryFormProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+  // textArea는 일부 값이 미리 채워져 있어야 함.
   const [form, setForm] = useState({
     name: '',
     image_url: '',
-    nation_name: '',
-    continent_name: '',
-    introduce: '',
-    quarantine_policy: '',
+    nation_name: nationName,
+    continent_name: continentName,
+    introduce: introduceInfo,
+    quarantine_policy: quarantinePolicy,
   });
 
   const {
@@ -81,9 +99,9 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
 
   return (
     <>
-      <Button onClick={() => setOpenModal((openModal) => !openModal)}>
-        ADD COUNTRY
-      </Button>
+      <ButtonIconStyle>
+        <EditIcon onClick={() => setOpenModal((openModal) => !openModal)} />
+      </ButtonIconStyle>
 
       <Modal
         show={openModal}
@@ -95,9 +113,8 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
             <form onSubmit={handleSubmit}>
               <InputLabel>이미지 업로드</InputLabel>
               <InputContainerStyle>
-                <AddInput
+                <EditInput
                   type="file"
-                  accept="image/jpg,impge/png,image/jpeg,image/gif"
                   name="image_url"
                   value={image_url}
                   onChange={onChange}
@@ -118,7 +135,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                   <option value="아메리카">아메리카</option>
                   <option value="오세아니아">오세아니아</option>
                 </select>
-                <AddInput
+                <EditInput
                   type="text"
                   name="nation_name"
                   value={nation_name}
@@ -128,7 +145,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
 
               <InputLabel>국가 소개</InputLabel>
               <InputContainerStyle>
-                <AddTextArea
+                <EditTextArea
                   name="introduce"
                   value={introduce}
                   onChange={onTextAreaChange}
@@ -140,7 +157,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
 
               <InputLabel>격리 정책</InputLabel>
               <InputContainerStyle>
-                <AddTextArea
+                <EditTextArea
                   name="quarantine_policy"
                   value={quarantine_policy}
                   onChange={onTextAreaChange}
@@ -150,7 +167,7 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                 />
               </InputContainerStyle>
 
-              <AddButton type="submit">등록</AddButton>
+              <EditButton type="submit">수정</EditButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
@@ -160,35 +177,8 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
   );
 };
 
-const Button = styled.div`
-  border: 0;
-  border-radius: 24px;
-  min-width: 50vw;
-  min-height: 8vw;
-  background-color: #f7f5f5;
-  color: #746f6f;
-  font-size: 25pt;
-  text-shadow: 2px 2px 2px #e2e0e0;
-  text-align: center;
-  line-height: 8vw;
-  letter-spacing: 5px;
-  transition: 0.3s;
-  -webkit-appearance: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f7f5f5;
-    letter-spacing: 3px;
-    transition: 0.3s;
-    text-shadow: 3px 3px 3px #aca9a9 inset;
-    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
-  }
-  &:active {
-    margin-left: 5px;
-    margin-top: 5px;
-    transition-duration: 0.3s;
-    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
-  }
+const ButtonIconStyle = styled.span`
+  padding: 5px;
 `;
 
 const InputLabel = styled.label`
@@ -199,14 +189,14 @@ const InputContainerStyle = styled.div`
   margin-bottom: 1vw;
 `;
 
-const AddInput = styled.input`
+const EditInput = styled.input`
   margin: 5px;
 `;
 
-const AddTextArea = styled.textarea`
+const EditTextArea = styled.textarea`
   width: 80%;
   margin-top: 5px;
   overflow: scroll;
 `;
 
-const AddButton = styled.button``;
+const EditButton = styled.button``;
