@@ -3,16 +3,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
+import { INation } from 'types';
 
 interface ICountryFormProps {
-  onSubmit: (form: {
-    name: string;
-    image_url: string;
-    nation_name: string;
-    continent_name: string;
-    introduce: string;
-    quarantine_policy: string;
-  }) => void;
+  onSubmit: (form: INation) => void;
 
   // 수정하고자 하는 id 값과 그에 해당하는 data props로 가져옴.
   id: number;
@@ -35,8 +29,8 @@ export const EditCountry = ({
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   // textArea는 일부 값이 미리 채워져 있어야 함.
-  const [form, setForm] = useState({
-    name: '',
+  const [form, setForm] = useState<INation>({
+    id: id,
     image_url: '',
     nation_name: nationName,
     continent_name: continentName,
@@ -58,8 +52,6 @@ export const EditCountry = ({
     setForm({
       ...form,
       [name]: value,
-      [image_url]: value,
-      [nation_name]: value,
     });
   };
 
@@ -69,7 +61,6 @@ export const EditCountry = ({
     setForm({
       ...form,
       [name]: value,
-      [continent_name]: value,
     });
   };
 
@@ -79,8 +70,6 @@ export const EditCountry = ({
     setForm({
       ...form,
       [name]: value,
-      [introduce]: value,
-      [quarantine_policy]: value,
     });
   };
 
@@ -88,7 +77,7 @@ export const EditCountry = ({
     e.preventDefault();
     onSubmit(form);
     setForm({
-      name: '',
+      id: 0,
       image_url: '',
       nation_name: '',
       continent_name: '',
@@ -140,7 +129,7 @@ export const EditCountry = ({
                   name="nation_name"
                   value={nation_name}
                   onChange={onChange}
-                />{' '}
+                />
               </InputContainerStyle>
 
               <InputLabel>국가 소개</InputLabel>

@@ -3,6 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
+import useNations from 'hooks/api/useNations';
 
 interface IDeleteCountryFormProps {
   // 삭제하고자 하는 id 값 props로 가져옴.
@@ -18,7 +19,8 @@ export const DeleteCountry = ({
 }: IDeleteCountryFormProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const onRemove = (id: number) => {};
+  // 해당 id delete
+  const { deleteNation } = useNations();
 
   return (
     <>
@@ -42,7 +44,7 @@ export const DeleteCountry = ({
                 <br />
                 삭제된 이후 되돌릴 수 없습니다.
               </DeleteContent>
-              <DeleteButton onClick={() => onRemove}>삭제</DeleteButton>
+              <DeleteButton onClick={() => deleteNation(id)}>삭제</DeleteButton>
             </>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
