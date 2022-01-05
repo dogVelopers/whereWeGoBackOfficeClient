@@ -3,18 +3,16 @@ import styled from 'styled-components';
 import useGetNations from 'hooks/api/useGetNations';
 import { EditCountry } from 'components/CountryList/EditCountry';
 import { DeleteCountry } from 'components/CountryList/DeleteCountry';
+import useNations from 'hooks/api/useNations';
+import { INation } from 'types';
 
 export const CountryList = () => {
   const { data } = useGetNations();
+  const { deleteNation } = useNations();
+
   console.log(data);
 
-  const onSubmit = (form: {
-    image_url: string;
-    nation_name: string;
-    continent_name: string;
-    introduce: string;
-    quarantine_policy: string;
-  }) => {
+  const onSubmit = (form: INation) => {
     console.log(form);
   };
 
