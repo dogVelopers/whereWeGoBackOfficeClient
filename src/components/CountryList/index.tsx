@@ -3,16 +3,11 @@ import styled from 'styled-components';
 import { EditCountry } from 'components/CountryList/EditCountry';
 import { DeleteCountry } from 'components/CountryList/DeleteCountry';
 import useGetNations from 'hooks/api/useGetNations';
-import { INation } from 'types';
 
 export const CountryList = () => {
   const { data } = useGetNations();
 
   console.log(data);
-
-  const onSubmit = (form: INation) => {
-    console.log(form);
-  };
 
   if (!data) return <div>loading ... </div>;
   return (
@@ -40,7 +35,6 @@ export const CountryList = () => {
 
               <ButtonContainerStyle>
                 <EditCountry
-                  onSubmit={onSubmit}
                   id={country.id}
                   imageUrl={country.image_url}
                   nationName={country.nation_name}
@@ -109,22 +103,22 @@ const ButtonIconStyle = styled.span`
 `;
 
 const ContinentNameStyle = styled.h1`
-  font-size: 1rem;
+  font-size: 1.5vw;
   line-height: 0%;
 `;
 
 const NationNameStyle = styled.h2`
-  font-size: 1.8rem;
+  font-size: 2.5vw;
 `;
 
 const CountryInfo = styled.div`
-  font-size: 14pt;
+  font-size: 1.8vw;
   font-weight: 600;
   margin: 5px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
 
 const CountryPolicy = styled.div`
-  font-size: 13pt;
+  font-size: 1.6vw;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;

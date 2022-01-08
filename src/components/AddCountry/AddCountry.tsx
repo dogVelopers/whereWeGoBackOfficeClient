@@ -5,29 +5,18 @@ import { ModalContent } from 'components/Modal/ModalContent';
 import useNations from 'hooks/api/useNations';
 
 export const AddCountry = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [image_record, setImage_record] = useState<File | null>(null); // also tried <string | Blob>
-  const [imagePreview, setImagePreview] = useState<string>(''); // also tried <string | Blob>
-
   // country 등록 post
   const { postNation } = useNations();
-
-  // string 타입인 img의 길이 > 0 => img 태그 보이도록.
-  const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-    const fileList = e.target.files;
-
-    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
-    if (!fileList) return;
-
-    setImage_record(fileList[0]);
-  };
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [imageRecord, setImageRecord] = useState<File | null>(null); // also tried <string | Blob>
+  const [imagePreview, setImagePreview] = useState<string>(''); // also tried <string | Blob>
 
   const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
 
     // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
     if (!files) return;
-    setImage_record(files[0]);
+    setImageRecord(files[0]);
 
     const targetImage = files[0];
     const reader = new FileReader();
@@ -37,8 +26,6 @@ export const AddCountry = () => {
       setImagePreview(reader.result as string);
     };
     reader.readAsDataURL(targetImage as Blob);
-
-    // post("/asdf", {...form, image: fileSelected}, Headers: {a});
   };
 
   const [form, setForm] = useState({
@@ -79,18 +66,18 @@ export const AddCountry = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(image_record);
+    console.log(imageRecord);
     console.log(form);
 
     // 창닫기 버튼 클릭 시에도 초기화 필요.
     // image_url !== null 일 경우에만 postNations 실행.
     if (window.confirm('해당 국가를 등록하시겠습니까?')) {
-      if (image_record !== null) {
-        postNation({ ...form, image_record });
+      if (imageRecord !== null) {
+        postNation({ ...form, imageRecord });
       }
 
       // 초기화
-      setImage_record(null);
+      setImageRecord(null);
       setForm({
         nation_name: '',
         continent_name: '',
@@ -123,6 +110,11 @@ export const AddCountry = () => {
                   name="image_url"
                   onChange={onChangeFile}
                 />
+
+                {/* 이미지가 변경 시, 기존 imageUrl -> imagePreview로 대체. */}
+                <ImagePreview>
+                  <img src={imagePreview} alt="img preivew" width="300px" />
+                </ImagePreview>
               </InputContainerStyle>
 
               <InputLabel>국가명</InputLabel>
@@ -193,7 +185,7 @@ const Button = styled.div`
   min-height: 8vw;
   background-color: #f7f5f5;
   color: #746f6f;
-  font-size: 25pt;
+  font-size: 4vw;
   text-shadow: 2px 2px 2px #e2e0e0;
   text-align: center;
   line-height: 8vw;
@@ -224,6 +216,7 @@ const InputContainerStyle = styled.div`
   margin-left: 4vw;
   margin-bottom: 1vw;
 `;
+const ImagePreview = styled.div``;
 
 const AddInput = styled.input`
   margin: 5px;

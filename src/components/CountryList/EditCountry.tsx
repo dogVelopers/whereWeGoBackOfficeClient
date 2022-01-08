@@ -3,13 +3,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
-import { INation } from 'types';
 import useNations from 'hooks/api/useNations';
 
 interface ICountryFormProps {
-  onSubmit: (form: INation) => void;
-
-  // 수정하고자 하는 id 값과 그에 해당하는 data props로 가져옴.
   id: number;
   imageUrl: string;
   nationName: string;
@@ -19,7 +15,6 @@ interface ICountryFormProps {
 }
 
 export const EditCountry = ({
-  onSubmit,
   id,
   imageUrl,
   nationName,
@@ -27,28 +22,39 @@ export const EditCountry = ({
   introduceInfo,
   quarantinePolicy,
 }: ICountryFormProps) => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
-  // 해당 id put(수정)
+  // 해당 id country put(수정)
   const { updateNation } = useNations();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [imageRecord, setImageRecord] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(imageUrl);
 
-  // textArea는 일부 값이 미리 채워져 있어야 함.
-  const [form, setForm] = useState<INation>({
+  const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const { files } = e.target;
+
+    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
+    if (!files) return;
+    setImageRecord(files[0]);
+
+    const targetImage = files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      console.log(reader.result);
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(targetImage as Blob);
+  };
+
+  // 해당 id data 기존 값으로 초기화
+  const [form, setForm] = useState({
     id: id,
-    image_url: '',
     nation_name: nationName,
     continent_name: continentName,
     introduce: introduceInfo,
     quarantine_policy: quarantinePolicy,
   });
 
-  const {
-    image_url,
-    nation_name,
-    continent_name,
-    introduce,
-    quarantine_policy,
-  } = form;
+  const { nation_name, continent_name, introduce, quarantine_policy } = form;
 
   // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,15 +85,28 @@ export const EditCountry = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(form);
-    setForm({
-      id: 0,
-      image_url: '',
-      nation_name: '',
-      continent_name: '',
-      introduce: '',
-      quarantine_policy: '',
-    });
+    console.log(imageRecord);
+    console.log(form);
+
+    // 창닫기 버튼 클릭 시에도 초기화 필요.
+    // image_url !== null 일 경우에만 postNations 실행.
+    if (window.confirm('해당 국가를 수정하시겠습니까?')) {
+      if (imageRecord !== null) {
+        updateNation({ ...form, imageRecord });
+      }
+
+      // 수정된 값으로 초기화
+      setImageRecord(imageRecord);
+      setImagePreview(imageUrl);
+      setForm({
+        id: id,
+        nation_name: nationName,
+        continent_name: continentName,
+        introduce: introduceInfo,
+        quarantine_policy: quarantinePolicy,
+      });
+    }
+    return;
   };
 
   return (
@@ -108,10 +127,15 @@ export const EditCountry = ({
               <InputContainerStyle>
                 <EditInput
                   type="file"
+                  accept="image/*"
                   name="image_url"
-                  value={image_url}
-                  onChange={onChange}
+                  onChange={onChangeFile}
                 />
+
+                {/* 이미지가 변경 시, 기존 imageUrl -> imagePreview로 대체. */}
+                <ImagePreview>
+                  <img src={imagePreview} alt="posting preivew" width="300px" />
+                </ImagePreview>
               </InputContainerStyle>
 
               <InputLabel>국가명</InputLabel>
@@ -181,6 +205,7 @@ const InputContainerStyle = styled.div`
   margin-left: 4vw;
   margin-bottom: 1vw;
 `;
+const ImagePreview = styled.div``;
 
 const EditInput = styled.input`
   margin: 5px;

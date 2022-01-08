@@ -4,19 +4,14 @@ import { del, post, put } from 'lib/api/client';
 import { INation } from 'types';
 
 // country post (기존 INation (img_url 제외) + img file)
-// image_url, id 2개 props omit 시 에러 발생.
-// type INationWithoutImage = Omit<INation, 'image_url'>;
+type INationWithoutImage = Omit<INation, 'image_url'>;
 
-// interface IPostNationRequest extends INationWithoutImage {
-//   image_record: File;
-// }
+interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
+  imageRecord: File;
+}
 
-interface IPostNationRequest {
-  introduce: string;
-  nation_name: string;
-  continent_name: string;
-  quarantine_policy: string;
-  image_record: File;
+interface IUpdateNationRequest extends INationWithoutImage {
+  imageRecord: File;
 }
 
 const useNations = () => {
@@ -31,9 +26,9 @@ const useNations = () => {
     mutate('/nations');
   };
 
-  const updateNation = (id: number, setForm: FormData) => {
-    put(`/nation-infos/${id}`, {
-      ...setForm,
+  const updateNation = (nation: IUpdateNationRequest) => {
+    put(`/nation-infos/${nation.id}`, {
+      ...nation,
     });
 
     mutate('/nations');

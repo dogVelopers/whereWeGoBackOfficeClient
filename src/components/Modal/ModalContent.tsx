@@ -50,7 +50,7 @@ const Header = styled.span`
 const CloseButton = styled.span`
   cursor: pointer;
   float: right;
-  &: hover,
+  &:hover,
   &:active {
     color: lightgray;
   }
