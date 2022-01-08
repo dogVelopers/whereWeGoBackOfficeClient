@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 // 라우터 v6 변경 사항 적용.
 import styled from '@emotion/styled';
-import SearchCountry from 'components/SearchCountry';
 import { AddCountry } from 'components/AddCountry/AddCountry';
 import { CountryList } from 'components/CountryList';
 
@@ -19,27 +18,12 @@ export default function App() {
 }
 
 const Main = () => {
-  const onSubmit = (form: {
-    image_url: string;
-    nation_name: string;
-    continent_name: string;
-    introduce: string;
-    quarantine_policy: string;
-  }) => {
-    console.log(form);
-  };
-
   return (
     <>
       <MainContainer>
-        {/* search */}
-        <SearchWrapper>
-          <SearchCountry />
-        </SearchWrapper>
-
         {/* add modal */}
         <ModalWrapper>
-          <AddCountry onSubmit={onSubmit} />
+          <AddCountry />
         </ModalWrapper>
 
         {/* country list */}
@@ -53,13 +37,6 @@ const Main = () => {
 
 // Main page
 const MainContainer = styled.div``;
-
-// search component
-const SearchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 // Modal component
 const ModalWrapper = styled.div`

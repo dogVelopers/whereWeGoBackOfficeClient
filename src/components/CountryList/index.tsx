@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import useGetNations from 'hooks/api/useGetNations';
 import { EditCountry } from 'components/CountryList/EditCountry';
 import { DeleteCountry } from 'components/CountryList/DeleteCountry';
-import useNations from 'hooks/api/useNations';
+import useGetNations from 'hooks/api/useGetNations';
 import { INation } from 'types';
 
 export const CountryList = () => {
   const { data } = useGetNations();
-  const { deleteNation } = useNations();
 
   console.log(data);
 
