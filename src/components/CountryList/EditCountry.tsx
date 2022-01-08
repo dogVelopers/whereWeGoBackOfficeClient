@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
 import { INation } from 'types';
+import useNations from 'hooks/api/useNations';
 
 interface ICountryFormProps {
   onSubmit: (form: INation) => void;
@@ -27,6 +28,9 @@ export const EditCountry = ({
   quarantinePolicy,
 }: ICountryFormProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  // 해당 id put(수정)
+  const { updateNation } = useNations();
 
   // textArea는 일부 값이 미리 채워져 있어야 함.
   const [form, setForm] = useState<INation>({

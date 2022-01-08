@@ -2,37 +2,53 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
+import useNations from 'hooks/api/useNations';
 
-interface IAddCountryProps {
-  onSubmit: (form: {
-    name: string;
-    image_url: string;
-    nation_name: string;
-    continent_name: string;
-    introduce: string;
-    quarantine_policy: string;
-  }) => void;
-}
-
-export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
+export const AddCountry = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [image_record, setImage_record] = useState<File | null>(null); // also tried <string | Blob>
+  const [imagePreview, setImagePreview] = useState<string>(''); // also tried <string | Blob>
+
+  // country 등록 post
+  const { postNation } = useNations();
+
+  // string 타입인 img의 길이 > 0 => img 태그 보이도록.
+  const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const fileList = e.target.files;
+
+    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
+    if (!fileList) return;
+
+    setImage_record(fileList[0]);
+  };
+
+  const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const { files } = e.target;
+
+    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
+    if (!files) return;
+    setImage_record(files[0]);
+
+    const targetImage = files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      console.log(reader.result);
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(targetImage as Blob);
+
+    // post("/asdf", {...form, image: fileSelected}, Headers: {a});
+  };
 
   const [form, setForm] = useState({
-    name: '',
-    image_url: '',
     nation_name: '',
     continent_name: '',
     introduce: '',
     quarantine_policy: '',
   });
 
-  const {
-    image_url,
-    nation_name,
-    continent_name,
-    introduce,
-    quarantine_policy,
-  } = form;
+  const { nation_name, continent_name, introduce, quarantine_policy } = form;
 
   // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +56,6 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
     setForm({
       ...form,
       [name]: value,
-      [image_url]: value,
-      [nation_name]: value,
     });
   };
 
@@ -51,7 +65,6 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
     setForm({
       ...form,
       [name]: value,
-      [continent_name]: value,
     });
   };
 
@@ -61,22 +74,31 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
     setForm({
       ...form,
       [name]: value,
-      [introduce]: value,
-      [quarantine_policy]: value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(form);
-    setForm({
-      name: '',
-      image_url: '',
-      nation_name: '',
-      continent_name: '',
-      introduce: '',
-      quarantine_policy: '',
-    });
+    console.log(image_record);
+    console.log(form);
+
+    // 창닫기 버튼 클릭 시에도 초기화 필요.
+    // image_url !== null 일 경우에만 postNations 실행.
+    if (window.confirm('해당 국가를 등록하시겠습니까?')) {
+      if (image_record !== null) {
+        postNation({ ...form, image_record });
+      }
+
+      // 초기화
+      setImage_record(null);
+      setForm({
+        nation_name: '',
+        continent_name: '',
+        introduce: '',
+        quarantine_policy: '',
+      });
+    }
+    return;
   };
 
   return (
@@ -97,10 +119,9 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
               <InputContainerStyle>
                 <AddInput
                   type="file"
-                  accept="image/jpg,impge/png,image/jpeg,image/gif"
+                  accept="image/*"
                   name="image_url"
-                  value={image_url}
-                  onChange={onChange}
+                  onChange={onChangeFile}
                 />
               </InputContainerStyle>
 
@@ -150,7 +171,12 @@ export const AddCountry = ({ onSubmit }: IAddCountryProps) => {
                 />
               </InputContainerStyle>
 
-              <AddButton type="submit">등록</AddButton>
+              <AddButton
+                type="submit"
+                // onClick={() => postNation({ ...form, image_record })}
+              >
+                등록
+              </AddButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
