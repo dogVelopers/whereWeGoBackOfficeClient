@@ -29,13 +29,13 @@ export const AddCountry = () => {
   };
 
   const [form, setForm] = useState({
-    nation_name: '',
-    continent_name: '',
+    nationName: '',
+    continentName: '',
     introduce: '',
-    quarantine_policy: '',
+    quarantinePolicy: '',
   });
 
-  const { nation_name, continent_name, introduce, quarantine_policy } = form;
+  const { nationName, continentName, introduce, quarantinePolicy } = form;
 
   // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,10 +79,10 @@ export const AddCountry = () => {
       // 초기화
       setImageRecord(null);
       setForm({
-        nation_name: '',
-        continent_name: '',
+        nationName: '',
+        continentName: '',
         introduce: '',
-        quarantine_policy: '',
+        quarantinePolicy: '',
       });
     }
     return;
@@ -107,7 +107,7 @@ export const AddCountry = () => {
                 <AddInput
                   type="file"
                   accept="image/*"
-                  name="image_url"
+                  name="imageUrl"
                   onChange={onChangeFile}
                 />
 
@@ -120,11 +120,11 @@ export const AddCountry = () => {
               <InputLabel>국가명</InputLabel>
               <InputContainerStyle>
                 <select
-                  name="continent_name"
-                  value={continent_name}
+                  name="continentName"
+                  value={continentName}
                   onChange={onSelectChange}
                 >
-                  <option defaultValue="">---선택---</option>
+                  <option value="">---선택---</option>
                   <option value="유럽">유럽</option>
                   <option value="아시아">아시아</option>
                   <option value="아프리카">아프리카</option>
@@ -133,8 +133,8 @@ export const AddCountry = () => {
                 </select>
                 <AddInput
                   type="text"
-                  name="nation_name"
-                  value={nation_name}
+                  name="nationName"
+                  value={nationName}
                   onChange={onChange}
                 />{' '}
               </InputContainerStyle>
@@ -154,8 +154,8 @@ export const AddCountry = () => {
               <InputLabel>격리 정책</InputLabel>
               <InputContainerStyle>
                 <AddTextArea
-                  name="quarantine_policy"
-                  value={quarantine_policy}
+                  name="quarantinePolicy"
+                  value={quarantinePolicy}
                   onChange={onTextAreaChange}
                   placeholder="격리 정책을 입력하는 란입니다."
                   cols={40}
@@ -163,12 +163,7 @@ export const AddCountry = () => {
                 />
               </InputContainerStyle>
 
-              <AddButton
-                type="submit"
-                // onClick={() => postNation({ ...form, image_record })}
-              >
-                등록
-              </AddButton>
+              <AddButton type="submit">등록</AddButton>
             </form>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
@@ -185,7 +180,7 @@ const Button = styled.div`
   min-height: 8vw;
   background-color: #f7f5f5;
   color: #746f6f;
-  font-size: 4vw;
+  font-size: 3.5vw;
   text-shadow: 2px 2px 2px #e2e0e0;
   text-align: center;
   line-height: 8vw;

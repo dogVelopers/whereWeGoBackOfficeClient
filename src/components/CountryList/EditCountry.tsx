@@ -5,28 +5,29 @@ import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
 import useNations from 'hooks/api/useNations';
 
+// 초기값을 어떻게 설정해야 이미지 수정이 이루어지지 않았을 경우에도 imageRecord 값이 null 이 아닐지 ..?
 interface ICountryFormProps {
   id: number;
-  imageUrl: string;
-  nationName: string;
-  continentName: string;
-  introduceInfo: string;
-  quarantinePolicy: string;
+  putImageUrl: string;
+  putNationName: string;
+  putContinentName: string;
+  putIntroduce: string;
+  putQuarantinePolicy: string;
 }
 
 export const EditCountry = ({
   id,
-  imageUrl,
-  nationName,
-  continentName,
-  introduceInfo,
-  quarantinePolicy,
+  putImageUrl,
+  putNationName,
+  putContinentName,
+  putIntroduce,
+  putQuarantinePolicy,
 }: ICountryFormProps) => {
   // 해당 id country put(수정)
   const { updateNation } = useNations();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [imageRecord, setImageRecord] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(imageUrl);
+  const [imagePreview, setImagePreview] = useState<string>(putImageUrl);
 
   const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
@@ -48,13 +49,13 @@ export const EditCountry = ({
   // 해당 id data 기존 값으로 초기화
   const [form, setForm] = useState({
     id: id,
-    nation_name: nationName,
-    continent_name: continentName,
-    introduce: introduceInfo,
-    quarantine_policy: quarantinePolicy,
+    nationName: putNationName,
+    continentName: putContinentName,
+    introduce: putIntroduce,
+    quarantinePolicy: putQuarantinePolicy,
   });
 
-  const { nation_name, continent_name, introduce, quarantine_policy } = form;
+  const { nationName, continentName, introduce, quarantinePolicy } = form;
 
   // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,13 +98,13 @@ export const EditCountry = ({
 
       // 수정된 값으로 초기화
       setImageRecord(imageRecord);
-      setImagePreview(imageUrl);
+      setImagePreview(putImageUrl);
       setForm({
         id: id,
-        nation_name: nationName,
-        continent_name: continentName,
-        introduce: introduceInfo,
-        quarantine_policy: quarantinePolicy,
+        nationName: putNationName,
+        continentName: putContinentName,
+        introduce: putIntroduce,
+        quarantinePolicy: putQuarantinePolicy,
       });
     }
     return;
@@ -128,7 +129,7 @@ export const EditCountry = ({
                 <EditInput
                   type="file"
                   accept="image/*"
-                  name="image_url"
+                  name="imageUrl"
                   onChange={onChangeFile}
                 />
 
@@ -141,8 +142,8 @@ export const EditCountry = ({
               <InputLabel>국가명</InputLabel>
               <InputContainerStyle>
                 <select
-                  name="continent_name"
-                  value={continent_name}
+                  name="continentName"
+                  value={continentName}
                   onChange={onSelectChange}
                 >
                   <option defaultValue="">---선택---</option>
@@ -154,8 +155,8 @@ export const EditCountry = ({
                 </select>
                 <EditInput
                   type="text"
-                  name="nation_name"
-                  value={nation_name}
+                  name="nationName"
+                  value={nationName}
                   onChange={onChange}
                 />
               </InputContainerStyle>
@@ -175,8 +176,8 @@ export const EditCountry = ({
               <InputLabel>격리 정책</InputLabel>
               <InputContainerStyle>
                 <EditTextArea
-                  name="quarantine_policy"
-                  value={quarantine_policy}
+                  name="quarantinePolicy"
+                  value={quarantinePolicy}
                   onChange={onTextAreaChange}
                   placeholder="격리 정책을 입력하는 란입니다."
                   cols={40}

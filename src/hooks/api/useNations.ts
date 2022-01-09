@@ -4,7 +4,7 @@ import { del, post, put } from 'lib/api/client';
 import { INation } from 'types';
 
 // country post (기존 INation (img_url 제외) + img file)
-type INationWithoutImage = Omit<INation, 'image_url'>;
+type INationWithoutImage = Omit<INation, 'imageUrl'>;
 
 interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
   imageRecord: File;
@@ -23,7 +23,7 @@ const useNations = () => {
       ...nation,
     });
 
-    mutate('/nations');
+    mutate('/nation-infos');
   };
 
   const updateNation = (nation: IUpdateNationRequest) => {
@@ -31,13 +31,13 @@ const useNations = () => {
       ...nation,
     });
 
-    mutate('/nations');
+    mutate('/nation-infos');
   };
 
   const deleteNation = (id: number) => {
     del(`/nation-infos/${id}`);
 
-    mutate('/nations');
+    mutate('/nation-infos');
   };
 
   return { postNation, updateNation, deleteNation };
