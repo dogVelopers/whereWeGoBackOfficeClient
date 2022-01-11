@@ -4,45 +4,82 @@ import { del, post, put } from 'lib/api/client';
 import { INation } from 'types';
 
 // country post (기존 INation (img_url 제외) + img file)
-// image_url, id 2개 props omit 시 에러 발생.
-// type INationWithoutImage = Omit<INation, 'image_url'>;
+type INationWithoutImage = Omit<INation, 'imageUrl'>;
 
-// interface IPostNationRequest extends INationWithoutImage {
-//   image_record: File;
-// }
+interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
+  image: File;
+}
 
-interface IPostNationRequest {
-  introduce: string;
-  nation_name: string;
-  continent_name: string;
-  quarantine_policy: string;
-  image_record: File;
+interface IUpdateNationRequest extends INationWithoutImage {
+  image: File;
 }
 
 const useNations = () => {
   // 데이터 최신화
   const { mutate } = useSWRConfig();
 
-  const postNation = (nation: IPostNationRequest) => {
-    post(`/nation-infos`, {
-      ...nation,
+  const postNation = ({
+    continentName,
+    nationName,
+    introduce,
+    image,
+    quarantinePolicy,
+  }: IPostNationRequest) => {
+    const formData = new FormData();
+    formData.append('file', image);
+
+    const tempNationStringData = JSON.stringify({
+      nationName,
+      continentName,
+      introduce,
+      quarantinePolicy,
     });
 
-    mutate('/nations');
-  };
-
-  const updateNation = (id: number, setForm: FormData) => {
-    put(`/nation-infos/${id}`, {
-      ...setForm,
+    const blobNationData = new Blob([tempNationStringData], {
+      type: 'application/json',
     });
 
-    mutate('/nations');
+    formData.append('nationInfoRequestDto', blobNationData);
+    post(`/nation-infos`, formData);
+
+    mutate('/nation-infos');
   };
 
-  const deleteNation = (id: number) => {
-    del(`/nation-infos/${id}`);
+  const updateNation = async ({
+    id,
+    continentName,
+    nationName,
+    introduce,
+    image,
+    quarantinePolicy,
+  }: IUpdateNationRequest) => {
+    const formData = new FormData();
+    formData.append('file', image);
 
-    mutate('/nations');
+    const tempNationStringData = JSON.stringify({
+      nationName,
+      continentName,
+      introduce,
+      quarantinePolicy,
+    });
+
+    const blobNationData = new Blob([tempNationStringData], {
+      type: 'application/json',
+    });
+
+    formData.append('nationInfoRequestDto', blobNationData);
+
+    await put(`/nation-infos/${id}`, {
+      formData,
+    });
+
+    mutate('/nation-infos');
+  };
+
+  const deleteNation = async (id: number) => {
+    await del(`/nation-infos/${id}`);
+
+    mutate('/nation-infos');
   };
 
   return { postNation, updateNation, deleteNation };
