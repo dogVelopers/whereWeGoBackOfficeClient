@@ -3,16 +3,11 @@ import styled from 'styled-components';
 import { EditCountry } from 'components/CountryList/EditCountry';
 import { DeleteCountry } from 'components/CountryList/DeleteCountry';
 import useGetNations from 'hooks/api/useGetNations';
-import { INation } from 'types';
 
 export const CountryList = () => {
   const { data } = useGetNations();
 
   console.log(data);
-
-  const onSubmit = (form: INation) => {
-    console.log(form);
-  };
 
   if (!data) return <div>loading ... </div>;
   return (
@@ -24,35 +19,32 @@ export const CountryList = () => {
           // map으로 data country 출력
           <CountryListBox key={country.id}>
             <ImageContainer>
-              <ImageStyle src={country.image_url} alt={country.nation_name} />
+              <ImageStyle src={country.imageUrl} alt={country.nationName} />
 
               <TitleContainerStyle>
-                <ContinentNameStyle>
-                  {country.continent_name}
-                </ContinentNameStyle>
-                <NationNameStyle>{country.nation_name}</NationNameStyle>
+                <ContinentNameStyle>{country.continentName}</ContinentNameStyle>
+                <NationNameStyle>{country.nationName}</NationNameStyle>
 
                 <p>
                   <CountryInfo>"{country.introduce}"</CountryInfo>
-                  <CountryPolicy>{country.quarantine_policy}</CountryPolicy>
+                  <CountryPolicy>{country.quarantinePolicy}</CountryPolicy>
                 </p>
               </TitleContainerStyle>
 
               <ButtonContainerStyle>
                 <EditCountry
-                  onSubmit={onSubmit}
                   id={country.id}
-                  imageUrl={country.image_url}
-                  nationName={country.nation_name}
-                  continentName={country.continent_name}
-                  introduceInfo={country.introduce}
-                  quarantinePolicy={country.quarantine_policy}
+                  putImageUrl={country.imageUrl}
+                  putNationName={country.nationName}
+                  putContinentName={country.continentName}
+                  putIntroduce={country.introduce}
+                  putQuarantinePolicy={country.quarantinePolicy}
                 />
                 <ButtonIconStyle>
                   <DeleteCountry
                     id={country.id}
-                    nationName={country.nation_name}
-                    continentName={country.continent_name}
+                    nationName={country.nationName}
+                    continentName={country.continentName}
                   />
                 </ButtonIconStyle>
               </ButtonContainerStyle>
@@ -109,22 +101,22 @@ const ButtonIconStyle = styled.span`
 `;
 
 const ContinentNameStyle = styled.h1`
-  font-size: 1rem;
+  font-size: 1.3vw;
   line-height: 0%;
 `;
 
 const NationNameStyle = styled.h2`
-  font-size: 1.8rem;
+  font-size: 1.8vw;
 `;
 
 const CountryInfo = styled.div`
-  font-size: 14pt;
+  font-size: 1.5vw;
   font-weight: 600;
   margin: 5px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
 
 const CountryPolicy = styled.div`
-  font-size: 13pt;
+  font-size: 1.3vw;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
