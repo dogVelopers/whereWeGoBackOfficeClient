@@ -7,35 +7,77 @@ import { INation } from 'types';
 type INationWithoutImage = Omit<INation, 'imageUrl'>;
 
 interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
-  imageRecord: File;
+  image: File;
 }
 
 interface IUpdateNationRequest extends INationWithoutImage {
-  imageRecord: File;
+  image: File;
 }
 
 const useNations = () => {
   // 데이터 최신화
   const { mutate } = useSWRConfig();
 
-  const postNation = (nation: IPostNationRequest) => {
-    post(`/nation-infos`, {
-      ...nation,
+  const postNation = ({
+    continentName,
+    nationName,
+    introduce,
+    image,
+    quarantinePolicy,
+  }: IPostNationRequest) => {
+    const formData = new FormData();
+    formData.append('file', image);
+
+    const tempNationStringData = JSON.stringify({
+      nationName,
+      continentName,
+      introduce,
+      quarantinePolicy,
+    });
+
+    const blobNationData = new Blob([tempNationStringData], {
+      type: 'application/json',
+    });
+
+    formData.append('nationInfoRequestDto', blobNationData);
+    post(`/nation-infos`, formData);
+
+    mutate('/nation-infos');
+  };
+
+  const updateNation = async ({
+    id,
+    continentName,
+    nationName,
+    introduce,
+    image,
+    quarantinePolicy,
+  }: IUpdateNationRequest) => {
+    const formData = new FormData();
+    formData.append('file', image);
+
+    const tempNationStringData = JSON.stringify({
+      nationName,
+      continentName,
+      introduce,
+      quarantinePolicy,
+    });
+
+    const blobNationData = new Blob([tempNationStringData], {
+      type: 'application/json',
+    });
+
+    formData.append('nationInfoRequestDto', blobNationData);
+
+    await put(`/nation-infos/${id}`, {
+      formData,
     });
 
     mutate('/nation-infos');
   };
 
-  const updateNation = (nation: IUpdateNationRequest) => {
-    put(`/nation-infos/${nation.id}`, {
-      ...nation,
-    });
-
-    mutate('/nation-infos');
-  };
-
-  const deleteNation = (id: number) => {
-    del(`/nation-infos/${id}`);
+  const deleteNation = async (id: number) => {
+    await del(`/nation-infos/${id}`);
 
     mutate('/nation-infos');
   };

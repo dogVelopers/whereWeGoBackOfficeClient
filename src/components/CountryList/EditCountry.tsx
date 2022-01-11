@@ -5,7 +5,6 @@ import { Modal } from 'components/Modal/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
 import useNations from 'hooks/api/useNations';
 
-// 초기값을 어떻게 설정해야 이미지 수정이 이루어지지 않았을 경우에도 imageRecord 값이 null 이 아닐지 ..?
 interface ICountryFormProps {
   id: number;
   putImageUrl: string;
@@ -28,19 +27,29 @@ export const EditCountry = ({
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [imageRecord, setImageRecord] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(putImageUrl);
+  const formData = new FormData();
 
   const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
 
     // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
-    if (!files) return;
+    if (!files) {
+      alert('이미지 파일을 선택해주세요');
+      return;
+    }
     setImageRecord(files[0]);
 
     const targetImage = files[0];
     const reader = new FileReader();
 
+    // form data input
+    formData.append('imageUrl', targetImage);
+    // formData 객체에서 지정된 키와 연관된 모든 값을 반환
+    console.log(formData.getAll('imageUrl'));
+    console.log(targetImage);
+
     reader.onloadend = () => {
-      console.log(reader.result);
+      // console.log(reader.result);
       setImagePreview(reader.result as string);
     };
     reader.readAsDataURL(targetImage as Blob);
@@ -54,7 +63,6 @@ export const EditCountry = ({
     introduce: putIntroduce,
     quarantinePolicy: putQuarantinePolicy,
   });
-
   const { nationName, continentName, introduce, quarantinePolicy } = form;
 
   // text input type 지정
@@ -86,18 +94,14 @@ export const EditCountry = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(imageRecord);
-    console.log(form);
 
-    // 창닫기 버튼 클릭 시에도 초기화 필요.
-    // image_url !== null 일 경우에만 postNations 실행.
     if (window.confirm('해당 국가를 수정하시겠습니까?')) {
       if (imageRecord !== null) {
-        updateNation({ ...form, imageRecord });
+        updateNation({ ...form, image: imageRecord });
       }
 
       // 수정된 값으로 초기화
-      setImageRecord(imageRecord);
+      setImageRecord(null);
       setImagePreview(putImageUrl);
       setForm({
         id: id,

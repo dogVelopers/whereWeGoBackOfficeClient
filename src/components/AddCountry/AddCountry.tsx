@@ -11,31 +11,32 @@ export const AddCountry = () => {
   const [imageRecord, setImageRecord] = useState<File | null>(null); // also tried <string | Blob>
   const [imagePreview, setImagePreview] = useState<string>(''); // also tried <string | Blob>
 
-  const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
-    const { files } = e.target;
-
-    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
-    if (!files) return;
-    setImageRecord(files[0]);
-
-    const targetImage = files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      console.log(reader.result);
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(targetImage as Blob);
-  };
-
   const [form, setForm] = useState({
     nationName: '',
     continentName: '',
     introduce: '',
     quarantinePolicy: '',
   });
-
   const { nationName, continentName, introduce, quarantinePolicy } = form;
+
+  const onChangeFile = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const { files } = e.target;
+
+    // 이미지 파일이 존재할 경우 fileList[0]으로 값 변경.
+    if (!files) {
+      alert('이미지 파일을 선택해주세요');
+      return;
+    }
+    setImageRecord(files[0]);
+
+    const targetImage = files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(targetImage as Blob);
+  };
 
   // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,18 +67,20 @@ export const AddCountry = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.table(form);
     console.log(imageRecord);
-    console.log(form);
 
     // 창닫기 버튼 클릭 시에도 초기화 필요.
     // image_url !== null 일 경우에만 postNations 실행.
     if (window.confirm('해당 국가를 등록하시겠습니까?')) {
       if (imageRecord !== null) {
-        postNation({ ...form, imageRecord });
+        postNation({ ...form, image: imageRecord });
       }
 
-      // 초기화
+      // 초기화.
       setImageRecord(null);
+      setImagePreview('');
       setForm({
         nationName: '',
         continentName: '',

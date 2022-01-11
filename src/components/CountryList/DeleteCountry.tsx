@@ -21,6 +21,11 @@ export const DeleteCountry = ({
 
   // 해당 id delete
   const { deleteNation } = useNations();
+  const onClickDeleteBtn = () => {
+    deleteNation(id);
+
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -44,7 +49,7 @@ export const DeleteCountry = ({
                 <br />
                 삭제된 이후 되돌릴 수 없습니다.
               </DeleteContent>
-              <DeleteButton onClick={() => deleteNation(id)}>삭제</DeleteButton>
+              <DeleteButton onClick={onClickDeleteBtn}>삭제</DeleteButton>
             </>
           }
           onClose={() => setOpenModal((openModal) => !openModal)}
