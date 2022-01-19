@@ -1,22 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { EditCountry } from 'components/CountryList/EditCountry';
-import { DeleteCountry } from 'components/CountryList/DeleteCountry';
+import { EditCountry } from 'components/main/CountryList/EditCountry';
+import { DeleteCountry } from 'components/main/CountryList/DeleteCountry';
 import useGetNations from 'hooks/api/useGetNations';
 
 export const CountryList = () => {
   const { data } = useGetNations();
 
-  console.log(data);
-
   if (!data) return <div>loading ... </div>;
   return (
-    // nation 정보를 담는 coutry 박스 컴포넌트 생성.
-    // map으로 돌려서 list 출력.
     <CountryBoxContainer>
       {data.map((country) => {
+        console.log(country.continentName);
         return (
-          // map으로 data country 출력
           <CountryListBox key={country.id}>
             <ImageContainer>
               <ImageStyle src={country.imageUrl} alt={country.nationName} />

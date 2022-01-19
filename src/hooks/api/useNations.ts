@@ -18,7 +18,7 @@ const useNations = () => {
   // 데이터 최신화
   const { mutate } = useSWRConfig();
 
-  const postNation = ({
+  const postNation = async ({
     continentName,
     nationName,
     introduce,
@@ -40,17 +40,17 @@ const useNations = () => {
     });
 
     formData.append('nationInfoRequestDto', blobNationData);
-    post(`/nation-infos`, formData);
+    await post(`/nation-infos`, formData);
 
     mutate('/nation-infos');
   };
 
   const updateNation = async ({
+    image,
     id,
     continentName,
     nationName,
     introduce,
-    image,
     quarantinePolicy,
   }: IUpdateNationRequest) => {
     const formData = new FormData();
@@ -68,10 +68,7 @@ const useNations = () => {
     });
 
     formData.append('nationInfoRequestDto', blobNationData);
-
-    await put(`/nation-infos/${id}`, {
-      formData,
-    });
+    await post(`/nation-infos/${id}`, formData);
 
     mutate('/nation-infos');
   };
