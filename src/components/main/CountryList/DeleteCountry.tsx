@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
-import { Modal } from 'components/Modal/Modal';
+import { Modal } from 'components/Modal';
 import { ModalContent } from 'components/Modal/ModalContent';
 import useNations from 'hooks/api/useNations';
 
@@ -39,21 +39,18 @@ export const DeleteCountry = ({
       >
         <ModalContent
           title=""
-          content={
-            <>
-              <DeleteContent>
-                <strong>
-                  {nationName}, {continentName}
-                </strong>{' '}
-                를 삭제하시겠습니까?
-                <br />
-                삭제된 이후 되돌릴 수 없습니다.
-              </DeleteContent>
-              <DeleteButton onClick={onClickDeleteBtn}>삭제</DeleteButton>
-            </>
-          }
           onClose={() => setOpenModal((openModal) => !openModal)}
-        />
+        >
+          <DeleteContent>
+            <strong>
+              {nationName}, {continentName}
+            </strong>{' '}
+            를 삭제하시겠습니까?
+            <br />
+            삭제된 이후 되돌릴 수 없습니다.
+          </DeleteContent>
+          <DeleteButton onClick={onClickDeleteBtn}>삭제</DeleteButton>
+        </ModalContent>
       </Modal>
     </>
   );
