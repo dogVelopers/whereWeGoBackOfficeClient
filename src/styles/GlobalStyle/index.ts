@@ -3,6 +3,9 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 body {
   font-family: 'Noto Sans KR', sans-serif;
+  --footer-bg-color: #555555;
+  --footer-text-color: #cccccc;
+  --layout-padding: 8px 6px;
 }
 
 // 수정, 추가, 삭제 버튼 통일

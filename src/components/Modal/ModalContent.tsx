@@ -4,14 +4,14 @@ import CloseIcon from '@material-ui/icons/Close';
 
 interface IModalContentProps {
   title: ReactNode;
-  content: ReactNode;
+  children: ReactNode;
   onClose: () => void;
 }
 
 // Modal 창 open 시 title, content
 export const ModalContent = ({
   title,
-  content,
+  children,
   onClose,
 }: IModalContentProps) => {
   // closeIcon 클릭 시 modal close
@@ -25,7 +25,7 @@ export const ModalContent = ({
         <CloseIcon onClick={onClose}></CloseIcon>
       </CloseButton>
 
-      <Content>{content}</Content>
+      <Content>{children}</Content>
     </Wrapper>
   );
 };
@@ -33,11 +33,12 @@ export const ModalContent = ({
 // 전체 Modal 창
 const Wrapper = styled.div`
   min-width: 400px;
-  min-height: 300px;
+  max-height: 600px;
   border-radius: 10px;
   padding: 20px;
   margin: 10px;
   background-color: #fff;
+  overflow: scroll;
 `;
 
 // Modal title
