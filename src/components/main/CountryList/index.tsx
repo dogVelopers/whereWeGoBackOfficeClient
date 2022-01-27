@@ -1,17 +1,16 @@
-import React from 'react';
 import styled from 'styled-components';
 import { EditCountry } from 'components/main/CountryList/EditCountry';
 import { DeleteCountry } from 'components/main/CountryList/DeleteCountry';
-import useGetNations from 'hooks/api/useGetNations';
+import { INation } from 'types';
 
-export const CountryList = () => {
-  const { data } = useGetNations();
+interface ICountryListProps {
+  data: INation[];
+}
 
-  if (!data) return <div>loading ... </div>;
+export const CountryList = ({ data }: ICountryListProps) => {
   return (
     <CountryBoxContainer>
       {data.map((country) => {
-        console.log(country.continentName);
         return (
           <CountryListBox key={country.id}>
             <ImageContainer>
@@ -21,11 +20,11 @@ export const CountryList = () => {
                 <ContinentNameStyle>{country.continentName}</ContinentNameStyle>
                 <NationNameStyle>{country.nationName}</NationNameStyle>
 
-                <p>
-                  <CountryInfo>"{country.introduce}"</CountryInfo>
-                  <CountryPolicy>{country.quarantinePolicy}</CountryPolicy>
-                </p>
+                <CountryInfo>"{country.introduce}"</CountryInfo>
+                <CountryPolicy>{country.quarantinePolicy}</CountryPolicy>
               </TitleContainerStyle>
+
+              <ModifiedDate>최종 수정일: {country.modifiedDate}</ModifiedDate>
 
               <ButtonContainerStyle>
                 <EditCountry
@@ -113,6 +112,16 @@ const CountryInfo = styled.div`
 `;
 
 const CountryPolicy = styled.div`
-  font-size: 1.3vw;
+  font-size: 1.2vw;
+  margin-top: 2vw;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+`;
+
+const ModifiedDate = styled.div`
+  position: absolute;
+  bottom: 1vw;
+  left: 2vw;
+  color: white;
+  font-size: 1.1vw;
+  font-weight: 500;
 `;

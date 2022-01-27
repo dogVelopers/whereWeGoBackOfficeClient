@@ -1,5 +1,5 @@
 import { useSWRConfig } from 'swr';
-import { del, post, put } from 'lib/api/client';
+import { del, post } from 'lib/api/client';
 
 import { INation } from 'types';
 

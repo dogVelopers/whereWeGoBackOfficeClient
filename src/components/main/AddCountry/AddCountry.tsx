@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import NationForm from 'components/common/NationForm';
 
 export const AddCountry = () => {
-  // country 등록 post
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (

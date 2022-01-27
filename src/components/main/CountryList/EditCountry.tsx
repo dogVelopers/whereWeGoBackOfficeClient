@@ -3,7 +3,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import NationForm from 'components/common/NationForm';
 
-// 초기값을 어떻게 설정해야 이미지 수정이 이루어지지 않았을 경우에도 imageRecord 값이 null 이 아닐지..?
 interface ICountryFormProps {
   id: number;
   putImageUrl: string;
