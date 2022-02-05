@@ -1,9 +1,7 @@
 import { useSWRConfig } from 'swr';
-import { del, post, put } from 'lib/api/client';
-
+import { del, post } from 'lib/api/client';
 import { INation } from 'types';
 
-// country post (기존 INation (img_url 제외) + img file)
 type INationWithoutImage = Omit<INation, 'imageUrl'>;
 
 interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
@@ -11,7 +9,7 @@ interface IPostNationRequest extends Omit<INationWithoutImage, 'id'> {
 }
 
 interface IUpdateNationRequest extends INationWithoutImage {
-  image: File;
+  image: File | null;
 }
 
 const useNations = () => {
@@ -54,7 +52,7 @@ const useNations = () => {
     quarantinePolicy,
   }: IUpdateNationRequest) => {
     const formData = new FormData();
-    formData.append('file', image);
+    if (image) formData.append('file', image);
 
     const tempNationStringData = JSON.stringify({
       nationName,

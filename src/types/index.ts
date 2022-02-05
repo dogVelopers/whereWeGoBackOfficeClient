@@ -5,4 +5,6 @@ export interface INation {
   nationName: string;
   continentName: string;
   quarantinePolicy: string;
+  createdDate?: Date;
+  modifiedDate?: Date;
 }

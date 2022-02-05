@@ -1,17 +1,16 @@
-import React from 'react';
 import styled from 'styled-components';
 import { EditCountry } from 'components/main/CountryList/EditCountry';
 import { DeleteCountry } from 'components/main/CountryList/DeleteCountry';
-import useGetNations from 'hooks/api/useGetNations';
+import { INation } from 'types';
 
-export const CountryList = () => {
-  const { data } = useGetNations();
+interface ICountryListProps {
+  data: INation[];
+}
 
-  if (!data) return <div>loading ... </div>;
+export const CountryList = ({ data }: ICountryListProps) => {
   return (
     <CountryBoxContainer>
       {data.map((country) => {
-        console.log(country.continentName);
         return (
           <CountryListBox key={country.id}>
             <ImageContainer>
@@ -21,11 +20,11 @@ export const CountryList = () => {
                 <ContinentNameStyle>{country.continentName}</ContinentNameStyle>
                 <NationNameStyle>{country.nationName}</NationNameStyle>
 
-                <p>
-                  <CountryInfo>"{country.introduce}"</CountryInfo>
-                  <CountryPolicy>{country.quarantinePolicy}</CountryPolicy>
-                </p>
+                <CountryInfo>"{country.introduce}"</CountryInfo>
+                <CountryPolicy>{country.quarantinePolicy}</CountryPolicy>
               </TitleContainerStyle>
+
+              <ModifiedDate>최종 수정일: {country.modifiedDate}</ModifiedDate>
 
               <ButtonContainerStyle>
                 <EditCountry
@@ -60,8 +59,8 @@ const CountryListBox = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 50vw;
-  height: 30vw;
+  width: 40vw;
+  height: 20vw;
   border-radius: 24px;
   overflow: hidden;
 `;
@@ -97,22 +96,32 @@ const ButtonIconStyle = styled.span`
 `;
 
 const ContinentNameStyle = styled.h1`
-  font-size: 1.3vw;
+  font-size: 1vw;
   line-height: 0%;
 `;
 
 const NationNameStyle = styled.h2`
-  font-size: 1.8vw;
+  font-size: 1.3vw;
 `;
 
 const CountryInfo = styled.div`
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   font-weight: 600;
   margin: 5px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
 
 const CountryPolicy = styled.div`
-  font-size: 1.3vw;
+  font-size: 1vw;
+  margin-top: 2vw;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+`;
+
+const ModifiedDate = styled.div`
+  position: absolute;
+  bottom: 1vw;
+  left: 2.5vw;
+  color: white;
+  font-size: 1vw;
+  font-weight: 500;
 `;

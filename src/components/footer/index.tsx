@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <FooterStyle>
       <TitleStyle>FESPA</TitleStyle>
-      <CopyrightStyle>copyright &copy; 2021 by FESPA</CopyrightStyle>
+      <CopyrightStyle>copyright &copy; 2022 by FESPA</CopyrightStyle>
     </FooterStyle>
   );
 };
 
-export default Footer;
-
 const FooterStyle = styled.footer`
-  width: 100%;
+  width: 40vw;
   height: 100px;
   background-color: var(--footer-bg-color);
   color: var(--footer-text-color);

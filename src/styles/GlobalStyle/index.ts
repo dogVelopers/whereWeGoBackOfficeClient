@@ -10,8 +10,8 @@ body {
 
 // 수정, 추가, 삭제 버튼 통일
 button {
-  bottom: 0px;
   margin-left: 4vw;
+  margin-top: 1vw;
   width: 70%;
   height: 35px;
   line-height: 30px;

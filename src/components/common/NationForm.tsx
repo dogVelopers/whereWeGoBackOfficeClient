@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import styled from '@emotion/styled';
+import { TextField, MenuItem } from '@material-ui/core';
 import useNations from 'hooks/api/useNations';
-import { Modal } from 'components/Modal';
-import { ModalContent } from 'components/Modal/ModalContent';
+import { Modal } from 'components/common/Modal';
+import { ModalContent } from 'components/common/Modal/ModalContent';
 
 interface INationFormProps {
   id?: number;
@@ -64,7 +65,6 @@ const NationForm = ({
     reader.readAsDataURL(targetImage as Blob);
   };
 
-  // text input type 지정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({
@@ -73,16 +73,6 @@ const NationForm = ({
     });
   };
 
-  // select box type 지정
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-
-  // textArea type 지정
   const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm({
@@ -96,7 +86,6 @@ const NationForm = ({
     console.table(form);
     console.log(imageRecord);
 
-    // null 값이 update 될 때의 문제 발생.
     if (imageRecord !== null) {
       if (isAddCountry) {
         if (window.confirm('해당 국가를 등록하시겠습니까?')) {
@@ -131,66 +120,93 @@ const NationForm = ({
     <Modal show={isOpenModal} onClose={onCloseModal}>
       <ModalContent title="" onClose={onCloseModal}>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <InputLabel>이미지 업로드</InputLabel>
-          <InputContainerStyle>
-            <InputForm
-              type="file"
-              accept="image/*"
-              name="imageUrl"
-              onChange={onChangeFile}
-            />
+          <FormContent>
+            <FormLabel>국가 {isAddCountry ? '등록' : '수정'}</FormLabel>
 
-            {/* 이미지가 변경 시, 기존 imageUrl -> imagePreview로 대체. */}
-            <ImagePreview>
-              <img src={imagePreview} alt="posting preivew" width="300px" />
-            </ImagePreview>
-          </InputContainerStyle>
-          <InputLabel>국가명</InputLabel>
-          <InputContainerStyle>
-            <select
-              name="continentNameForm"
-              value={continentNameForm}
-              onChange={onSelectChange}
-            >
-              <option value="">---선택---</option>
-              <option value="유럽">유럽</option>
-              <option value="아시아">아시아</option>
-              <option value="아프리카">아프리카</option>
-              <option value="아메리카">아메리카</option>
-              <option value="오세아니아">오세아니아</option>
-            </select>
-            <InputForm
-              type="text"
-              name="nationNameForm"
-              value={nationNameForm}
-              onChange={onChange}
-            />{' '}
-          </InputContainerStyle>
-          <InputLabel>국가 소개</InputLabel>
-          <InputContainerStyle>
-            <InputTextArea
-              name="introduceForm"
-              value={introduceForm}
-              onChange={onTextAreaChange}
-              placeholder="소개글을 입력하는 란입니다."
-              cols={40}
-              rows={8}
-            />
-          </InputContainerStyle>
-          <InputLabel>격리 정책</InputLabel>
-          <InputContainerStyle>
-            <InputTextArea
-              name="quarantinePolicyForm"
-              value={quarantinePolicyForm}
-              onChange={onTextAreaChange}
-              placeholder="격리 정책을 입력하는 란입니다."
-              cols={40}
-              rows={8}
-            />
-          </InputContainerStyle>
-          <SubmitButton type="submit">
-            {isAddCountry ? '등록' : '수정'}
-          </SubmitButton>
+            <InputContent>
+              <Upload className="input-file-button" htmlFor="input-file">
+                {isAddCountry ? 'Upload files' : 'Edit files'}
+              </Upload>
+              <input
+                id="input-file"
+                type="file"
+                accept="image/*"
+                name="imageUrl"
+                onChange={onChangeFile}
+                style={{ display: 'none' }}
+              />
+              {id === 0 && imageRecord === null ? (
+                <></>
+              ) : (
+                <ImagePreview>
+                  <img src={imagePreview} alt="posting preivew" width="400px" />
+                </ImagePreview>
+              )}
+            </InputContent>
+            <InputContent>
+              <InputField
+                select
+                label="대륙명"
+                variant="standard"
+                name="continentNameForm"
+                value={continentNameForm}
+                onChange={onChange}
+                size="small"
+                inputProps={{ style: { fontSize: 15 } }}
+              >
+                <MenuItem value="">---선택---</MenuItem>
+                <MenuItem value="유럽">유럽</MenuItem>
+                <MenuItem value="아시아">아시아</MenuItem>
+                <MenuItem value="아프리카">아프리카</MenuItem>
+                <MenuItem value="아메리카">아메리카</MenuItem>
+                <MenuItem value="오세아니아">오세아니아</MenuItem>
+              </InputField>
+            </InputContent>
+            <InputContent>
+              {continentNameForm === '' ? (
+                <InputField label="국가명" disabled />
+              ) : (
+                <InputField
+                  label="국가명"
+                  variant="standard"
+                  type="text"
+                  name="nationNameForm"
+                  value={nationNameForm}
+                  onChange={onChange}
+                  size="small"
+                  inputProps={{ style: { fontSize: 15 } }}
+                />
+              )}
+            </InputContent>
+            <InputContent>
+              <InputField
+                label="국가소개"
+                variant="standard"
+                name="introduceForm"
+                value={introduceForm}
+                onChange={onTextAreaChange}
+                inputProps={{ style: { fontSize: 15 } }}
+                multiline
+                rows={5}
+                placeholder="소개글을 입력하는 란입니다."
+              />
+            </InputContent>
+            <InputContent>
+              <InputField
+                label="격리정책"
+                variant="standard"
+                name="quarantinePolicyForm"
+                value={quarantinePolicyForm}
+                onChange={onTextAreaChange}
+                inputProps={{ style: { fontSize: 15 } }}
+                multiline
+                rows={5}
+                placeholder="격리 정책을 입력하는 란입니다."
+              />
+            </InputContent>
+          </FormContent>
+
+          <button type="submit">{isAddCountry ? '등록' : '수정'}</button>
         </form>
       </ModalContent>
     </Modal>
@@ -199,23 +215,36 @@ const NationForm = ({
 
 export default NationForm;
 
-const InputLabel = styled.label`
-  margin-left: 4vw;
+const FormContent = styled.div`
+  margin-right: 2vw;
+  margin-left: 2vw;
 `;
-const InputContainerStyle = styled.div`
-  margin-left: 4vw;
+const FormLabel = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   margin-bottom: 1vw;
-`;
-const ImagePreview = styled.div``;
-
-const InputForm = styled.input`
-  margin: 5px;
+  font-size: 15pt;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  letter-spacing: 2pt;
 `;
 
-const InputTextArea = styled.textarea`
-  width: 80%;
-  margin-top: 5px;
-  overflow: scroll;
+const Upload = styled.label`
+  padding: 3px 15px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  color: gray;
+  cursor: pointer;
 `;
-
-const SubmitButton = styled.button``;
+const ImagePreview = styled.div`
+  margin-top: 1vw;
+`;
+const InputContent = styled.div`
+  margin-bottom: 0.6vw;
+`;
+const InputField = styled(TextField)({
+  width: '100%',
+  fontSize: '10pt',
+  marginBottom: '1vw',
+});
