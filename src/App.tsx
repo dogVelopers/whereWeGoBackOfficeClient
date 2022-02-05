@@ -27,25 +27,24 @@ const Main = () => {
   if (!data) return <div>loading...</div>;
   return (
     <>
-      {/* main */}
       <MainContainer>
-        <ContentWrapper>
+        <BoxWrapper>
           <AddCountry />
-        </ContentWrapper>
+        </BoxWrapper>
 
-        {/* search */}
-        <SearchWrapper>
+        <BoxWrapper>
           <SearchCountry data={data} setSearchedData={setSearchedData} />
-        </SearchWrapper>
+        </BoxWrapper>
 
-        <ContentWrapper>
+        <BoxWrapper>
           <CountryList data={searchedData} />
-        </ContentWrapper>
+        </BoxWrapper>
       </MainContainer>
 
-      {/* footer */}
       <FooterContainer>
-        <Footer />
+        <BoxWrapper>
+          <Footer />
+        </BoxWrapper>
       </FooterContainer>
     </>
   );
@@ -55,15 +54,8 @@ const Main = () => {
 const MainContainer = styled.div``;
 
 // Modal component
-const ContentWrapper = styled.div`
+const BoxWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const SearchWrapper = styled.div`
-  display: flex;
-  margin-top: 2vw;
   align-items: center;
   justify-content: center;
 `;

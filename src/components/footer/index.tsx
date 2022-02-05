@@ -10,7 +10,7 @@ export const Footer = () => {
 };
 
 const FooterStyle = styled.footer`
-  width: 100%;
+  width: 40vw;
   height: 100px;
   background-color: var(--footer-bg-color);
   color: var(--footer-text-color);

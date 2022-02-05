@@ -9,7 +9,10 @@ const responseInterceptorFulfilled = (res: AxiosResponse) => {
 };
 
 const responseInterceptorRejected = (error: AxiosError) => {
-  return new Error(error.response?.data ?? error);
+  const errorMsg = error.response?.data?.message ?? '에러입니다';
+
+  alert(errorMsg);
+  return new Error(error.response?.data?.message ?? error);
 };
 
 instance.interceptors.response.use(

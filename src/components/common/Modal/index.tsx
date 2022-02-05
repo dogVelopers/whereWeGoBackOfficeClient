@@ -1,6 +1,6 @@
 import { ReactNode, MouseEvent } from 'react';
 import styled from '@emotion/styled';
-import { ModalPortalWrap } from 'components/Modal/ModalPortal';
+import { ModalPortalWrap } from 'components/common/Modal/ModalPortal';
 
 interface IModalProps {
   show: boolean;

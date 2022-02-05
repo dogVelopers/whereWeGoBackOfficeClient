@@ -59,8 +59,8 @@ const CountryListBox = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 50vw;
-  height: 30vw;
+  width: 40vw;
+  height: 20vw;
   border-radius: 24px;
   overflow: hidden;
 `;
@@ -96,23 +96,23 @@ const ButtonIconStyle = styled.span`
 `;
 
 const ContinentNameStyle = styled.h1`
-  font-size: 1.3vw;
+  font-size: 1vw;
   line-height: 0%;
 `;
 
 const NationNameStyle = styled.h2`
-  font-size: 1.8vw;
+  font-size: 1.3vw;
 `;
 
 const CountryInfo = styled.div`
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   font-weight: 600;
   margin: 5px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
 
 const CountryPolicy = styled.div`
-  font-size: 1.2vw;
+  font-size: 1vw;
   margin-top: 2vw;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 `;
@@ -120,8 +120,8 @@ const CountryPolicy = styled.div`
 const ModifiedDate = styled.div`
   position: absolute;
   bottom: 1vw;
-  left: 2vw;
+  left: 2.5vw;
   color: white;
-  font-size: 1.1vw;
+  font-size: 1vw;
   font-weight: 500;
 `;

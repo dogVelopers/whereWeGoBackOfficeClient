@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from 'components/Modal';
-import { ModalContent } from 'components/Modal/ModalContent';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Modal } from 'components/common/Modal';
+import { ModalContent } from 'components/common/Modal/ModalContent';
 import useNations from 'hooks/api/useNations';
 
 interface IDeleteCountryFormProps {
@@ -61,11 +61,11 @@ const ButtonIconStyle = styled.span`
 `;
 
 const DeleteContent = styled.div`
-  margin-top: 60px;
+  margin-top: 2.5vw;
   font-size: 13pt;
   text-align: center;
 `;
 
 const DeleteButton = styled.button`
-  margin-top: 50px;
+  margin-top: 4vw;
 `;

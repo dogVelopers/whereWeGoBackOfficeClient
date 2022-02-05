@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styled from '@emotion/styled';
+import { styled } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 import NationForm from 'components/common/NationForm';
 
 export const AddCountry = () => {
@@ -7,9 +8,12 @@ export const AddCountry = () => {
 
   return (
     <>
-      <Button onClick={() => setOpenModal((openModal) => !openModal)}>
+      <ButtonWrapper
+        variant="outlined"
+        onClick={() => setOpenModal((openModal) => !openModal)}
+      >
         ADD COUNTRY
-      </Button>
+      </ButtonWrapper>
       {openModal && (
         <NationForm isOpenModal={openModal} setIsOpenModal={setOpenModal} />
       )}
@@ -17,33 +21,15 @@ export const AddCountry = () => {
   );
 };
 
-const Button = styled.div`
-  border: 0;
-  border-radius: 24px;
-  min-width: 50vw;
-  min-height: 8vw;
-  background-color: #f7f5f5;
-  color: #746f6f;
-  font-size: 3.5vw;
-  text-shadow: 2px 2px 2px #e2e0e0;
-  text-align: center;
-  line-height: 8vw;
-  letter-spacing: 5px;
-  transition: 0.3s;
-  -webkit-appearance: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f7f5f5;
-    letter-spacing: 3px;
-    transition: 0.3s;
-    text-shadow: 3px 3px 3px #aca9a9 inset;
-    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
-  }
-  &:active {
-    margin-left: 5px;
-    margin-top: 5px;
-    transition-duration: 0.3s;
-    box-shadow: 5px 5px 5px #c5c5c5 inset, 5px 5px 5px #c5c5c5 inset;
-  }
-`;
+const ButtonWrapper = styled(Button)({
+  width: '40vw',
+  height: '5vw',
+  borderRadius: '15px',
+  background: 'none',
+  color: '#746f6f',
+  fontSize: '2vw',
+  textShadow: '2px 2px 2px #e2e0e0',
+  lineHeight: '6vw',
+  letterSpacing: '5px',
+  cursor: 'pointer',
+});

@@ -7,7 +7,8 @@ import {
   SetStateAction,
 } from 'react';
 import styled from '@emotion/styled';
-
+import { TextField, InputAdornment } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import { INation } from 'types';
 import { debounce } from 'lodash';
 
@@ -62,12 +63,20 @@ export const SearchCountry = ({
 
   return (
     <>
-      {/* search */}
       <SearchWrapper>
-        <Search
+        <SearchField
+          label="Search"
+          variant="standard"
           type="text"
           value={keyword}
           onChange={onChangeKeyword}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
           placeholder="Search"
         />
       </SearchWrapper>
@@ -76,15 +85,10 @@ export const SearchCountry = ({
 };
 
 const SearchWrapper = styled.div`
-  display: flex;
   margin-top: 2vw;
-  align-items: center;
-  justify-content: center;
 `;
-const Search = styled.input`
-  width: 30vw;
-  height: 2vw;
-  padding: 0.5vw;
-  font-size: 1vw;
-  border-radius: 10px;
+const SearchField = styled(TextField)`
+  width: 35vw;
+  height: 3vw;
+  padding: 1vw;
 `;

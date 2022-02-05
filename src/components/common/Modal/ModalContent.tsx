@@ -14,9 +14,6 @@ export const ModalContent = ({
   children,
   onClose,
 }: IModalContentProps) => {
-  // closeIcon 클릭 시 modal close
-  // const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <Wrapper>
       <Header>{title}</Header>
